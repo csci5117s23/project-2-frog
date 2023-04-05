@@ -4,14 +4,16 @@ CSCI 5117, Spring 2022, [assignment description](https://canvas.umn.edu/courses/
 
 ## App Info:
 
-* Team Name: TODO
+* Team Name: Frogs
 * App Name: TODO
 * App Link: <https://TODO.com/>
 
 ### Students
 
-* First Last, x500@umn.edu
-* ...
+* Joe Rendleman, rendl008@umn.edu
+* Jarod Kafka, kafka050@umn.edu
+* Jhett Larson, lars6592@umn.edu
+* Phet Bowman, bowma311@umn.edu
 
 
 ## Key Features
