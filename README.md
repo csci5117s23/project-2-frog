@@ -2,7 +2,7 @@
 
 CSCI 5117, Spring 2022, [assignment description](https://canvas.umn.edu/courses/355584/pages/project-2)
 
-## App Info:
+## App Info
 
 - Team Name: Frogs
 - App Name: TODO
@@ -34,10 +34,10 @@ Which (if any) progressive web app feature(s) does your app support?
 
 **[Add images/photos that show your mockup](https://stackoverflow.com/questions/10189356/how-to-add-screenshot-to-readmes-in-github-repository) along with a very brief caption:**
 
-![](/home_page.png) Home Page featuring all of a user's plants
-![](/search_page.jpg) Search results from search for a plant
-![](/info_page.jpg) Info about a plant, and schedule for watering
-![](/edit_page.jpg) Edit information about your plant
+![Home page](/public/home_page.png) Home Page featuring all of a user's plants
+![Search page](/public/search_page.jpg) Search results from search for a plant
+![Info page](/public/info_page.jpg) Info about a plant, and schedule for watering
+![Edit page](/public/edit_page.jpg) Edit information about your plant
 
 ## Testing Notes
 
@@ -50,7 +50,7 @@ Which (if any) progressive web app feature(s) does your app support?
 **[Add a screenshot of each key page](https://stackoverflow.com/questions/10189356/how-to-add-screenshot-to-readmes-in-github-repository)
 along with a very brief caption:**
 
-![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
+![gif](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
 
 ## External Dependencies
 
