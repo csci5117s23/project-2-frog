@@ -1,9 +1,12 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react"
 import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import TopBar from "@/components/Topbar";
 import BottomBar from "@/components/BottomBar";
+import PlantCard from "@/components/PlantCard";
 
 
 export default function Home() {
@@ -17,6 +20,19 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <TopBar></TopBar>
+        {/* WE NEED TO FIGURE OUT CSS FRAMEWORK FOR GRIDS MAYBE WE USE PURECSS IDK*/}
+        <div id='PLANTS!!!!' css={css`
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: space-evenly;
+        `}>
+          <PlantCard></PlantCard>
+          <PlantCard></PlantCard>
+          <PlantCard></PlantCard>
+          <PlantCard></PlantCard>
+          <PlantCard></PlantCard>
+        </div>
         <BottomBar></BottomBar>
       </main>
     </>
