@@ -11,6 +11,7 @@ import { date, object, string } from 'yup';
 const speciesYup = object({
     species: string().required(),
     commonName: string().required(),
+    description: string(),
     lightLevel: string().required(),
     waterLevel: string().required(),
     tempLevel: string().required()
@@ -20,11 +21,12 @@ const plantsYup = object({
     userId: string().required(),
     name: string().required(),
     species: string().required(),
+    image: string().required().default('/public/favicon.ico'),
     lastWatered: date().default(() => new Date()),
     createdOn: date().default(() => new Date()),
 })
 
-crudlify(app)
+crudlify(app, { species: speciesYup, plants: plantsYup })
 
 // bind to serverless runtime
 export default app.init();
