@@ -8,6 +8,7 @@ export async function getSpecies(speciesId, token) {
             Authorization: `Bearer: ${token}`
         }
     })
+    if (!result.ok) return -1
     return await result.json()
 }
 
@@ -20,6 +21,7 @@ export async function postSpecies(speciesJSON, token) {
         },
         'body': JSON.stringify(speciesJSON)
     })
+    if (!result.ok) return -1
     return await result.json()
 }
 
@@ -32,6 +34,7 @@ export async function patchSpecies(speciesId, speciesJSON, token) {
         },
         'body': JSON.stringify(speciesJSON)
     })
+    if (!result.ok) return -1
     return await result.json()
 }
 
@@ -42,6 +45,7 @@ export async function getPlantsForUser(userId, token) {
             'Authorization': `Bearer: ${token}`,
         }
     })
+    if (!result.ok) return -1
     return await result.json()
 }
 
@@ -52,6 +56,7 @@ export async function getPlantById(plantId, token) {
             'Authorization': `Bearer: ${token}`,
         }
     })
+    if (!result.ok) return -1
     return await result.json()
 }
 
@@ -65,6 +70,7 @@ export async function postPlant(plantJSON, token) {
         },
         'body': JSON.stringify(plantJSON)
     })
+    if (!result.ok) return -1
     return await result.json()
 }
 
@@ -77,5 +83,6 @@ export async function patchPlant(plantId, plantJSON, token) {
         },
         'body': JSON.stringify(plantJSON)
     })
+    if (!result.ok) return -1
     return await result.json()
 }
