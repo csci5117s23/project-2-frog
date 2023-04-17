@@ -12,70 +12,71 @@ export default function PlantCard(props) {
         lightLevel = <Image src={'/cloud.png'} fill css={css`object-fit: cover;`}></Image>
 
     return (
-        <div css={css`
-            width: 10rem;
-            height: 20rem;
-            background-color: slategray;
-            margin: 1rem;
-            border: 0.5rem solid green;
-        `}>
+        <Link href={`/plants/${props.id}`}>
             <div css={css`
-                width: 100%;
-                height: 50%;
-                position: relative;
-                border-bottom: 0.25rem solid green;
+                width: 10rem;
+                height: 20rem;
+                background-color: slategray;
+                margin: 1rem;
+                border: 0.5rem solid green;
             `}>
-                <Image src={props.image || '/default_plant.png'} fill></Image>
-            </div>
-            <div css={css`
-                width: 100%;
-                height: 50%;
-            `}>
-                <Link href={`/plants/${props.id}`}>
-                    <h3 id='plantName' css={css`height: 20%; text-align: center;`}>{props.name || 'Unnamed Plant'}</h3>
-                </Link>
                 <div css={css`
-                    display: flex;
-                    flex-direction: row;
-                    height: 80%;
+                    width: 100%;
+                    height: 50%;
+                    position: relative;
+                    border-bottom: 0.25rem solid green;
                 `}>
-                    <div id='leftColumn' css={css`
+                    <Image src={props.image || '/default_plant.png'} fill></Image>
+                </div>
+                <div css={css`
+                    width: 100%;
+                    height: 50%;
+                `}>
+                    <h3 id='plantName' css={css`height: 20%; text-align: center;`}>{props.name || 'Unnamed Plant'}</h3>
+                    
+                    <div css={css`
                         display: flex;
-                        flex-direction: column;
-                        flex: 1;
-                        
+                        flex-direction: row;
+                        height: 80%;
                     `}>
-                        <div css={css`
-                            height: 50%;
-                            position: relative;
-                            overflow: hidden;
+                        <div id='leftColumn' css={css`
+                            display: flex;
+                            flex-direction: column;
+                            flex: 1;
+                            
                         `}>
-                            {lightLevel}
+                            <div css={css`
+                                height: 50%;
+                                position: relative;
+                                overflow: hidden;
+                            `}>
+                                {lightLevel}
+                            </div>
+                            <div css={css`
+                                height: 50%;
+                                position: relative;
+                                text-align: center;
+                            `}>
+                                {props.tempLevel || '60-80'}
+                            </div>
                         </div>
-                        <div css={css`
-                            height: 50%;
-                            position: relative;
-                            text-align: center;
+                        <div id='rightColumn' css={css`
+                            display: flex;
+                            flex-direction: column;
+                            flex: 1;
                         `}>
-                            {props.tempLevel || '60-80'}
+                            <div css={css`
+                                height: 50%;
+                                position: relative;
+                                overflow: hidden;
+                            `}>
+                                <Image src='/watering_can.png' fill css={css`object-fit: cover;`}></Image>
+                            </div>
+                            <p css={css`text-align: center;`}> {props.lastWatered || 'today'} </p>
                         </div>
-                    </div>
-                    <div id='rightColumn' css={css`
-                        display: flex;
-                        flex-direction: column;
-                        flex: 1;
-                    `}>
-                        <div css={css`
-                            height: 50%;
-                            position: relative;
-                            overflow: hidden;
-                        `}>
-                            <Image src='/watering_can.png' fill css={css`object-fit: cover;`}></Image>
-                        </div>
-                        <p css={css`text-align: center;`}> {props.lastWatered || 'today'} </p>
                     </div>
                 </div>
             </div>
-        </div>
+        </Link>
     )
 }
