@@ -1,3 +1,6 @@
+const backend_base = process.env.NEXT_PUBLIC_BACKEND_BASE_URL
+
+
 export async function getSpecies(speciesId, token) {
     const result = await fetch(`${backend_base}/species/${speciesId}`, {
         'method': 'GET',
