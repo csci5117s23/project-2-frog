@@ -12,7 +12,7 @@ export default function PlantCard(props) {
         lightLevel = <Image src={'/cloud.png'} fill css={css`object-fit: cover;`}></Image>
 
     return (
-        <Link href={`/plants/${props.id}`}>
+        <Link href={`/plants/${props.plant._id}`}>
             <div css={css`
                 width: 10rem;
                 height: 20rem;
@@ -26,13 +26,13 @@ export default function PlantCard(props) {
                     position: relative;
                     border-bottom: 0.25rem solid green;
                 `}>
-                    <Image src={props.image || '/default_plant.png'} fill></Image>
+                    <Image src={props.plant.image || '/default_plant.png'} fill></Image>
                 </div>
                 <div css={css`
                     width: 100%;
                     height: 50%;
                 `}>
-                    <h3 id='plantName' css={css`height: 20%; text-align: center;`}>{props.name || 'Unnamed Plant'}</h3>
+                    <h3 id='plantName' css={css`height: 20%; text-align: center;`}>{props.plant.name || 'Unnamed Plant'}</h3>
                     
                     <div css={css`
                         display: flex;
@@ -57,7 +57,7 @@ export default function PlantCard(props) {
                                 position: relative;
                                 text-align: center;
                             `}>
-                                {props.tempLevel || '60-80'}
+                                {props.plant.tempLevel || '60-80'}
                             </div>
                         </div>
                         <div id='rightColumn' css={css`
@@ -72,7 +72,7 @@ export default function PlantCard(props) {
                             `}>
                                 <Image src='/watering_can.png' fill css={css`object-fit: cover;`}></Image>
                             </div>
-                            <p css={css`text-align: center;`}> {props.lastWatered || 'today'} </p>
+                            <p css={css`text-align: center;`}> {props.plant.lastWatered || 'today'} </p>
                         </div>
                     </div>
                 </div>
