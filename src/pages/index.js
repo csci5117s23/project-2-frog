@@ -146,7 +146,7 @@ export default function Home() {
 
   if (!plants.length) plantCards.push(<p>You have no plants</p>)
   for (const plant of plants) {
-    plantCards.push(<PlantCard plant={plant}></PlantCard>)
+    plantCards.push(<PlantCard key={plant._id} plant={plant}></PlantCard>)
   }
   
   return (
