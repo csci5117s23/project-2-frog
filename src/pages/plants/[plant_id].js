@@ -2,6 +2,7 @@ import { getPlantById, getSpecies } from "@/modules/Data";
 import { RedirectToSignIn, SignedIn, SignedOut, useAuth } from "@clerk/nextjs";
 import { useRouter} from "next/router";
 import { useEffect, useState } from "react";
+import { redirect } from "next/navigation";
 
 
 export default function SinglePlant(){
@@ -26,16 +27,18 @@ export default function SinglePlant(){
 
                 if(plant_json == -1){
                     setFakePlant(true)
-                    setLoading(false)
                 }else{
                     setPlantData(plant_json)
                     const species = await getSpecies(plant_json["species"], token)
                     if(species == -1){
-                        set
+                        setSpeciesNoLoad(true)
+                    }else{
+                        setSpeciesInfo(species)
                     }
 
-                    setLoading(false)
                 }
+
+                setLoading(false)
 
             }else if(router.isReady && isLoaded && !userId){
                 console.log("attempting to access when not logged in")
@@ -48,15 +51,40 @@ export default function SinglePlant(){
         
     }, [router, isLoaded])
 
+    function calcTimeTillNextWater(){
+        
+    }
+
 
     if(loading){
         return(<>Loading.....</>)
+    }else if(fakePlant){
+        redirect('/404')
+
+    }else if(speciesNoLoad){
+        redirect('/create_species') //not sure if this is what we want to do
+
     }else{
         return(
             <>
-
                 <SignedIn>
+                    {/*Image at top */}
+                    <div className="columns">
+                        <div className="column is-full">
+                            <div>{plantData["name"]}</div>
+                            <div>{speciesInfo["commonName"]}</div>
+                        </div>
+                        <div className="column is-half">
+                            <div className="card">
+                                <div className="card-content">
+                                    <p className="title">{calcTimeTillNextWater()}</p>
+                                </div> 
+                            </div>
+                        </div>
+                        <div className="column is-half">
 
+                        </div>
+                    </div>
                 </SignedIn>
                 <SignedOut>
                     <RedirectToSignIn redirectUrl={"/" + plant_id} />
