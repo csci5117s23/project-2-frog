@@ -21,7 +21,7 @@ const plantsYup = object({
     userId: string().required(),
     name: string().required(),
     species: string().required(),
-    image: string().required().default('/public/favicon.ico'),
+    image: string().required().default('/default_plant.png'),
     lastWatered: date().default(() => new Date()),
     createdOn: date().default(() => new Date()),
 })
