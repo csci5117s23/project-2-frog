@@ -133,18 +133,19 @@ export default function Home() {
 
   useEffect(() => {
     async function load() {
-      const token = await getToken(/*{template: 'codehooks'}*/)
+      if (!userId) return
+      const token = await getToken({ template: 'codehooks' });
       const data = await getPlantsForUser(userId, token)
       if (data != -1) setPlants(data)
       else setPlants([])
       setLoading(false)
     }
     load()
-  }, [loading])
+  }, [loading, userId])
 
   const plantCards = []
 
-  if (!plants.length) plantCards.push(<p>You have no plants</p>)
+  if (!plants.length) plantCards.push(<p key={'no'}>You have no plants</p>)
   for (const plant of plants) {
     plantCards.push(<PlantCard key={plant._id} plant={plant}></PlantCard>)
   }

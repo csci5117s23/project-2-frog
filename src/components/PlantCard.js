@@ -5,11 +5,11 @@ import Link from "next/link"
 
 export default function PlantCard(props) {
 
-    let lightLevel = <Image src={'/sun.png'} fill css={css`object-fit: cover;`}></Image>
+    let lightLevel = <Image src={'/sun.png'} alt='sun' fill css={css`object-fit: cover;`}></Image>
     if (props.lightLevel == 'medium') 
-        lightLevel = <Image src={'/sunAndCloud.png'} fill css={css`object-fit: cover;`}></Image>
+        lightLevel = <Image src={'/sunAndCloud.png'} alt='sun and cloud' fill css={css`object-fit: cover;`}></Image>
     else if (props.lightLevel == 'low') 
-        lightLevel = <Image src={'/cloud.png'} fill css={css`object-fit: cover;`}></Image>
+        lightLevel = <Image src={'/cloud.png'} alt='cloud' fill css={css`object-fit: cover;`}></Image>
 
     return (
         <Link href={`/plants/${props.plant._id}`}>
@@ -26,7 +26,7 @@ export default function PlantCard(props) {
                     position: relative;
                     border-bottom: 0.25rem solid green;
                 `}>
-                    <Image src={props.plant.image || '/default_plant.png'} fill></Image>
+                    <Image src={props.plant.image || '/default_plant.png'} alt={props.plant.name} fill></Image>
                 </div>
                 <div css={css`
                     width: 100%;
@@ -70,7 +70,7 @@ export default function PlantCard(props) {
                                 position: relative;
                                 overflow: hidden;
                             `}>
-                                <Image src='/watering_can.png' fill css={css`object-fit: cover;`}></Image>
+                                <Image src='/watering_can.png' alt='watering can' fill css={css`object-fit: cover;`}></Image>
                             </div>
                             <p css={css`text-align: center;`}> {props.plant.lastWatered || 'today'} </p>
                         </div>
