@@ -3,6 +3,7 @@ import { RedirectToSignIn, SignedIn, SignedOut, useAuth } from "@clerk/nextjs";
 import { useRouter} from "next/router";
 import { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
+import { dateDiffInDays } from "@/modules/randomHelpers";
 
 
 export default function SinglePlant(){
@@ -19,7 +20,7 @@ export default function SinglePlant(){
 
     useEffect(()=>{
         async function getPlantInfo(){
-            if(router.isReady && isLoaded && userId){
+            if(router.isReady && isLoaded){
                 console.log("getting toekn and grabbing the plant");
                 const token = await getToken({Template: "codehooks"});
 
@@ -33,18 +34,18 @@ export default function SinglePlant(){
                     if(species == -1){
                         setSpeciesNoLoad(true)
                     }else{
-                        setSpeciesInfo(species)
+                        setSpeciesInfo(species[0])
                     }
 
                 }
 
                 setLoading(false)
-
-            }else if(router.isReady && isLoaded && !userId){
-                console.log("attempting to access when not logged in")
-                setLoading(false)
-
             }
+            // }else if(router.isReady && isLoaded && !userId){
+            //     console.log("attempting to access when not logged in")
+            //     setLoading(false)
+
+            // }
         }
         getPlantInfo()
         
@@ -52,46 +53,90 @@ export default function SinglePlant(){
     }, [router, isLoaded])
 
     function calcTimeTillNextWater(){
-        
+        //get time since last watered and subtract from number of days between waters
+        const today = new Date()
+        const lastWatered = new Date(plantData["lastWatered"])
+        const difference = dateDiffInDays(today, lastWatered)
+
+        //assuming that waterLevel is number of days between waters
+        return speciesInfo["waterLevel"] - difference
+
     }
 
 
     if(loading){
         return(<>Loading.....</>)
-    }else if(fakePlant){
-        redirect('/404')
-
-    }else if(speciesNoLoad){
-        redirect('/create_species') //not sure if this is what we want to do
-
     }else{
-        return(
-            <>
-                <SignedIn>
-                    {/*Image at top */}
-                    <div className="columns">
-                        <div className="column is-full">
-                            <div>{plantData["name"]}</div>
-                            <div>{speciesInfo["commonName"]}</div>
-                        </div>
-                        <div className="column is-half">
-                            <div className="card">
-                                <div className="card-content">
-                                    <p className="title">{calcTimeTillNextWater()}</p>
-                                </div> 
-                            </div>
-                        </div>
-                        <div className="column is-half">
+        return(<>
+            {/*Image at top */}
+            <div className="columns">
+                <div className="column is-full">
+                    <div>{plantData["name"]}</div>
+                    <div>{speciesInfo["commonName"]}</div>
+                </div>
+                <div className="column is-half">
+                    <div className="card">
+                        <div className="card-content">
+                            <p className="title">{calcTimeTillNextWater()}</p>
+                            <p className="subtitle">Days until next water</p>
+                        </div> 
+                        <div className="card-footer">
 
+                        </div>
+                        
+                    </div>
+                </div>
+                <div className="column is-half">
+                    <div className="card">
+                        <div className="card-content">
+                            <p className="title">{speciesInfo["lightLevel"]}</p>
                         </div>
                     </div>
-                </SignedIn>
-                <SignedOut>
-                    <RedirectToSignIn redirectUrl={"/" + plant_id} />
-                </SignedOut>
 
-            </>
-        )
+                </div>
+                
+            </div>
+        </>)
     }
+    
+    // else if(fakePlant){
+    //     redirect('/404')
+
+    // }else if(speciesNoLoad){
+    //     redirect('/create_species') //not sure if this is what we want to do
+
+    // }else{
+    //     return(
+    //         <>
+    //             <SignedIn>
+    //                 {/*Image at top */}
+    //                 <div className="columns">
+    //                     <div className="column is-full">
+    //                         <div>{plantData["name"]}</div>
+    //                         <div>{speciesInfo["commonName"]}</div>
+    //                     </div>
+    //                     <div className="column is-half">
+    //                         <div className="card">
+    //                             <div className="card-content">
+    //                                 <p className="title">{calcTimeTillNextWater()}</p>
+    //                                 <p className="subtitle">Days until next water</p>
+    //                             </div> 
+    //                             <div className="card-footer">
+                                    
+    //                             </div>
+    //                         </div>
+    //                     </div>
+    //                     <div className="column is-half">
+
+    //                     </div>
+    //                 </div>
+    //             </SignedIn>
+    //             <SignedOut>
+    //                 <RedirectToSignIn redirectUrl={"/" + plant_id} />
+    //             </SignedOut>
+
+    //         </>
+    //     )
+    // }
 
 }

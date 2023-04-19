@@ -2,10 +2,10 @@ const backend_base = process.env.NEXT_PUBLIC_BACKEND_BASE_URL
 
 
 export async function getSpecies(speciesId, token) {
-    const result = await fetch(`${backend_base}/species/${speciesId}`, {
+    const result = await fetch(`${backend_base}/species?species=${speciesId}`, {
         'method': 'GET',
         'headers': {
-            Authorization: `Bearer: ${token}`
+            Authorization: `Bearer: ${token}`,
         }
     })
     if (!result.ok) return -1
