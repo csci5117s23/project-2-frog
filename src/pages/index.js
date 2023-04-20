@@ -135,7 +135,7 @@ export default function Home() {
     async function load() {
       if (!userId) return
       const token = await getToken({ template: 'codehooks' });
-      const data = await getPlantsForUser(userId, token)
+      const data = await getPlantsForUser(token)
       if (data != -1) setPlants(data)
       else setPlants([])
       setLoading(false)
