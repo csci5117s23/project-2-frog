@@ -125,10 +125,6 @@ export default function Home() {
     const [plants, setPlants] = useState([]);
     const [loading, setLoading] = useState(true);
     const { userId, getToken } = useAuth();
-    function burgerActive() {
-        const navbarMenu = document.querySelector('#nav-links');
-        navbarMenu.classList.toggle('is-active');
-    }
 
     useEffect(() => {
         async function load() {
@@ -160,27 +156,6 @@ export default function Home() {
             </Head>
             <main>
                 <div className='container'>
-                    {/* <nav className='navbar is-fixed-top is-dark' role='navigation' aria-label='main navigation'>
-                        <div className='navbar-brand'>
-                            <a className='navbar-item'>YOOOOOO PLANT APP</a>
-                            <a className='navbar-burger' id='burger' onClick={burgerActive}>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </a>
-                        </div>
-                        <div className='navbar-menu ' id='nav-links'>
-                            <div className='navbar-end '>
-                                <a className='navbar-item '>Settings</a>
-                                <a className='navbar-item '>
-                                    <SignedIn>Welcome User!</SignedIn>
-                                    <SignedOut>
-                                        <SignInButton></SignInButton>
-                                    </SignedOut>
-                                </a>
-                            </div>
-                        </div>
-                    </nav> */}
                     <div className='section'>
                         <div className='columns'>{plantCards}</div>
                     </div>

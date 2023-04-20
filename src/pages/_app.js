@@ -1,7 +1,7 @@
 import '@/styles/globals.css';
 import { ClerkProvider, SignedIn, SignedOut, UserButton, SignIn } from '@clerk/nextjs';
 import { useRouter } from 'next/router';
-import Layout from '@/components/layout';
+import Layout from '@/components/Layout';
 
 // If the current route is listed as public, render it directly
 // Otherwise, use Clerk to require authentication
