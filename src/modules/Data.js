@@ -38,8 +38,8 @@ export async function patchSpecies(speciesId, speciesJSON, token) {
     return await result.json()
 }
 
-export async function getPlantsForUser(userId, token) {
-    const result = await fetch(`${backend_base}/plants?userId=${userId}`, {
+export async function getPlantsForUser(token) {
+    const result = await fetch(`${backend_base}/plants`, {
         'method': 'GET',
         'headers': {
             'Authorization': `Bearer: ${token}`,
