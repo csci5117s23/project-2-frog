@@ -92,6 +92,12 @@ export default function NewPlant() {
                                 <textarea class='input' type='text' id='description' placeholder='Description'></textarea>
                             </div>
                         </div>
+                        <div>
+                            <figure class='image is-128x128'>
+                                <img src='sun.png'></img>
+                            </figure>
+                            {/* add ImageUploadComp.js here??? */}
+                        </div>
                         <div class='field'>
                             <div class='control'>
                                 <a class='button'>Submit</a>
