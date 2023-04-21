@@ -1,5 +1,6 @@
 import { postSpecies } from "@/modules/Data"
 import { useAuth } from "@clerk/nextjs"
+import { useRouter } from "next/router"
 import { useState } from "react"
 
 export default function NewSpecies() {
@@ -10,10 +11,11 @@ export default function NewSpecies() {
     const [wateringDays, setWateringDays] = useState(1)
     const [tempLevel, setTempLevel] = useState('60-80')
     const { getToken } = useAuth()
+    const router = useRouter()
 
     async function submit() {
         const token = await getToken({ template: 'codehooks' })
-        const result = postSpecies({
+        const result = await postSpecies({
             species: scientificName,
             commonName: commonName,
             description: description,
@@ -22,6 +24,7 @@ export default function NewSpecies() {
             tempLevel: tempLevel
         }, token)
         if (result == -1) alert('error posting species')
+        else router.back()
     }
 
     return (<div className="container">
