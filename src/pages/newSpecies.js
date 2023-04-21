@@ -24,23 +24,52 @@ export default function NewSpecies() {
         if (result == -1) alert('error posting species')
     }
 
-    return (<>
-        <label htmlFor='scientificName'>Scientific Name: </label>
-        <input id='scientificName' value={scientificName} onChange={(e)=>setScientificName(e.target.value)}></input>
-        <label htmlFor='commonName'>Common Name: </label>
-        <input id='commonName' value={commonName} onChange={(e)=>setCommonName(e.target.value)}></input>
-        <label htmlFor='description'>Description: </label>
-        <textarea id='description' value={description} onChange={(e)=>setDescription(e.target.value)}></textarea>
-        <label htmlFor='lightLevel'>Light Level: </label>
-        <select id='lightLevel' value={lightLevel} onChange={(e)=>setLightLevel(e.target.value)}>
-            <option value='high'>high</option>
-            <option value='medium'>medium</option>
-            <option value='low'>low</option>
-        </select>
-        <label htmlFor='wateringDays'>Days between watering: </label>
-        <input id='wateringDays' value={wateringDays} onChange={(e)=>setWateringDays(e.target.value)}></input>
-        <label htmlFor='tempLevel'>Temperature Range: </label>
-        <input id='tempLevel' value={tempLevel} onChange={(e)=>setTempLevel(e.target.value)}></input>
-        <button onClick={submit} value='submit'>submit</button>
-    </>)
+    return (<div className="container">
+        <h1 className='title'>Add a species</h1>
+        <div className='field'>
+            <label className='label' htmlFor='scientificName'>Scientific Name: </label>
+            <div className='control'>
+                <input className='input' id='scientificName' value={scientificName} onChange={(e)=>setScientificName(e.target.value)}></input>
+            </div>
+        </div>
+        <div className='field'>
+            <label className='label' htmlFor='commonName'>Common Name: </label>
+            <div className='control'>
+                <input className='input' id='commonName' value={commonName} onChange={(e)=>setCommonName(e.target.value)}></input>
+            </div>
+        </div>
+        <div className='field'>
+            <label className='label' htmlFor='description'>Description: </label>
+            <div className='control'>
+                <textarea className='textarea' id='description' value={description} onChange={(e)=>setDescription(e.target.value)}></textarea>
+            </div>
+        </div>
+        <div className='field'>
+            <label htmlFor='lightLevel'>Light Level: </label>
+            <div className='control'>
+                <div className='select'>
+                    <select id='lightLevel' value={lightLevel} onChange={(e)=>setLightLevel(e.target.value)}>
+                        <option value='high'>high</option>
+                        <option value='medium'>medium</option>
+                        <option value='low'>low</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div className='field'>
+            <label className='label' htmlFor='wateringDays'>Days between watering: </label>
+            <div className='control'>
+                <input className='input' id='wateringDays' value={wateringDays} onChange={(e)=>setWateringDays(e.target.value)}></input>
+            </div>
+        </div>
+        <div className='field'>
+            <label className='label' htmlFor='tempLevel'>Temperature Range: </label>
+            <div className='control'>
+                <input className='input' id='tempLevel' value={tempLevel} onChange={(e)=>setTempLevel(e.target.value)}></input>
+            </div>
+        </div>
+        <div className='control'>
+            <button className='button' onClick={submit} value='submit'>submit</button>
+        </div>
+    </div>)
 }
