@@ -116,15 +116,38 @@ a {
   left: 0;
   border-radius: 3px;
   display: none;
+  
 }
 
 .select-search-container:not(.select-search-is-multiple).select-search-has-focus .select-search-select {
   display: block;
+ 
 }
 
 .select-search-is-highlighted {
   background: var(--select-search-highlight);
 }
 .select-search-option:not(.select-search-is-selected):hover {
-  background: yellow;
+  background: rgb(2, 84, 6);
+  color: white;
+}
+.select-search-option {
+  border: none;
+  outline: none;
+  width: 200px;
+  text-align: left;
+  background-color: transparent;
+}
+.select-search-select {
+  background-color: white;
+  width: 200px;
+  overflow-y: scroll;
+  max-height: 200px;
+  border-width: 5px;
+  border-style: solid;
+  border: black;
+}
+
+#__next {
+  margin-bottom: 10%;
 }

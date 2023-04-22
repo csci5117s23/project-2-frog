@@ -11,7 +11,7 @@ export async function getSpecies(speciesId, token) {
     return await result.json();
 }
 
-export async function getAllSpecies(species, token) {
+export async function getReqSpecies(species, token) {
     const result = await fetch(`${backend_base}/species?species=${species}`, {
         method: 'GET',
         headers: {
