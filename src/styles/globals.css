@@ -105,3 +105,26 @@ a {
     color-scheme: dark;
   }
 }
+
+/* https: //github.com/tbleckert/react-select-search/blob/main/style.css */
+/* species search bar styling in newplant.js */
+.select-search-container:not(.select-search-is-multiple) .select-search-select {
+  position: absolute;
+  z-index: 2;
+  top: 58px;
+  right: 0;
+  left: 0;
+  border-radius: 3px;
+  display: none;
+}
+
+.select-search-container:not(.select-search-is-multiple).select-search-has-focus .select-search-select {
+  display: block;
+}
+
+.select-search-is-highlighted {
+  background: var(--select-search-highlight);
+}
+.select-search-option:not(.select-search-is-selected):hover {
+  background: yellow;
+}
