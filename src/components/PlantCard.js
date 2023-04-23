@@ -21,18 +21,12 @@ export default function PlantCard(props) {
             <div className='card-content'>
                 <h1 className='title has-text-centered'>{props.plant.name || 'Unnamed Plant'}</h1>
                 <div className='columns is-mobile'>
-                    <div className='column is-6'>
-                        <figure className='image is-square'>
-                            {lightLevel}
-                        </figure>
-                        <div className='content'>
-                            <p className='has-text-centered'>Temp: {props.plant.tempLevel || '60-80'} &deg;F</p>
-                        </div>
-                    </div>
-                    <div className='column is-6'>
+                    <div className='column is-one-third'>
                         <figure className='image is-square'>
                             <Image src='/watering_can.png' alt='watering can' fill></Image>
                         </figure>
+                    </div>
+                    <div className='column is-two-thirds'>
                         <div className='content'>
                             <p className='has-text-centered'>{props.plant.lastWatered || 'today'}</p>
                         </div>
