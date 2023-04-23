@@ -2,14 +2,10 @@
 import { css } from "@emotion/react"
 import Image from "next/image"
 import Link from "next/link"
+import { decideLightImage } from "@/modules/randomHelpers"
 
 export default function PlantCard(props) {
 
-    let lightLevel = <Image src={'/sun.png'} alt='sun' fill css={css`object-fit: cover;`}></Image>
-    if (props.lightLevel == 'medium') 
-        lightLevel = <Image src={'/sunAndCloud.png'} alt='sun and cloud' fill css={css`object-fit: cover;`}></Image>
-    else if (props.lightLevel == 'low') 
-        lightLevel = <Image src={'/cloud.png'} alt='cloud' fill css={css`object-fit: cover;`}></Image>
 
     return (
         <Link href={`/plants/${props.plant._id}`}>
@@ -50,7 +46,7 @@ export default function PlantCard(props) {
                                 position: relative;
                                 overflow: hidden;
                             `}>
-                                {lightLevel}
+                                {decideLightImage(props.lightLevel)}
                             </div>
                             <div css={css`
                                 height: 50%;
