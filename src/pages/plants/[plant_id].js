@@ -1,9 +1,11 @@
-import { getPlantById, getSpecies } from "@/modules/Data";
+import { getPlantById, getSpecies, patchPlant } from "@/modules/Data";
 import { RedirectToSignIn, SignedIn, SignedOut, useAuth } from "@clerk/nextjs";
+import { css } from "@emotion/react"
 import { useRouter} from "next/router";
 import { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
-import { dateDiffInDays } from "@/modules/randomHelpers";
+import  Image  from "next/image";
+import { dateDiffInDays, decideLightImage } from "@/modules/randomHelpers";
 
 
 export default function SinglePlant(){
@@ -34,7 +36,7 @@ export default function SinglePlant(){
                     if(species == -1){
                         setSpeciesNoLoad(true)
                     }else{
-                        setSpeciesInfo(species[0])
+                        setSpeciesInfo(species)
                     }
 
                 }
@@ -63,80 +65,93 @@ export default function SinglePlant(){
 
     }
 
+    async function waterPlant(){
+        const token = await getToken({Template: "codehooks"});
+
+        const response = await patchPlant(plant_id, {"lastWatered": new Date()}, token)
+
+        if (response == -1){alert("wasn't able to update db")}
+
+        setPlantData(response)
+    }
+    
+
+
 
     if(loading){
         return(<>Loading.....</>)
     }else{
         return(<>
-            {/*Image at top */}
-            <div className="columns">
-                <div className="column is-full">
-                    <div>{plantData["name"]}</div>
-                    <div>{speciesInfo["commonName"]}</div>
+            
+            <div className="columns is-multiline is-mobile is-3 is-vcentered">
+                <div className="column is-full-mobile is-half-desktop ">
+                    <div className="card">
+                        <div className="card-image">
+                            <figure className="image is-4by3">
+                                <Image src = {plantData["image"]} fill></Image>
+                            </figure>
+                        </div>
+                        <div className="card-content"> 
+                            <div className="title">{plantData["name"]}</div>
+                            <div className="subtitle">{speciesInfo["commonName"]}</div>
+                        </div>
+                    </div>
                 </div>
-                <div className="column is-half">
+                <div className="column is-full-mobile is-half-desktop">
+                    <div className="card">
+                        <div className="card-content">
+                            <div className="content">
+                                {speciesInfo['description']}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div className="column is-half-mobile is-quarter-desktop">
                     <div className="card">
                         <div className="card-content">
                             <p className="title">{calcTimeTillNextWater()}</p>
                             <p className="subtitle">Days until next water</p>
                         </div> 
-                        <div className="card-footer">
+                    </div>
+
+                    
+                </div>
+                <div className="column is-half-mobile is-quarter-desktop">
+                    <div className="card">
+                        <div className="media">
+                            <div className="media-left">
+                                <figure className="image is-48x48">
+                                    {/* <Image src={'/sun.png'} alt='sun' fill css={css`object-fit: cover;`}></Image> */}
+                                    {decideLightImage(speciesInfo["lightLevel"])}
+                                </figure>
+                            </div>
+                            <div className="media-content">
+                                <p className="title">{speciesInfo["lightLevel"]}</p>
+                            </div>
 
                         </div>
-                        
                     </div>
                 </div>
-                <div className="column is-half">
+                <div className="column is-half-mobile is-quarter-desktop">
+                    <div className="card">
+                        <div className="card-footer">
+                            <button className="card-footer-item button is-primary" onClick={waterPlant}>Water Plant!</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="column is-half-mobile is-quarter-desktop">
                     <div className="card">
                         <div className="card-content">
-                            <p className="title">{speciesInfo["lightLevel"]}</p>
-                        </div>
+                            <p className="title">{speciesInfo["tempLevel"]}</p>
+                        </div> 
                     </div>
 
-                </div>
-                
+                </div> 
             </div>
         </>)
     }
-    
-    // else if(fakePlant){
-    //     redirect('/404')
-
-    // }else if(speciesNoLoad){
-    //     redirect('/create_species') //not sure if this is what we want to do
-
-    // }else{
-    //     return(
-    //         <>
-    //             <SignedIn>
-    //                 {/*Image at top */}
-    //                 <div className="columns">
-    //                     <div className="column is-full">
-    //                         <div>{plantData["name"]}</div>
-    //                         <div>{speciesInfo["commonName"]}</div>
-    //                     </div>
-    //                     <div className="column is-half">
-    //                         <div className="card">
-    //                             <div className="card-content">
-    //                                 <p className="title">{calcTimeTillNextWater()}</p>
-    //                                 <p className="subtitle">Days until next water</p>
-    //                             </div> 
-    //                             <div className="card-footer">
-                                    
-    //                             </div>
-    //                         </div>
-    //                     </div>
-    //                     <div className="column is-half">
-
-    //                     </div>
-    //                 </div>
-    //             </SignedIn>
-    //             <SignedOut>
-    //                 <RedirectToSignIn redirectUrl={"/" + plant_id} />
-    //             </SignedOut>
-
-    //         </>
-    //     )
-    // }
 
 }
