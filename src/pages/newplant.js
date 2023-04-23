@@ -81,37 +81,45 @@ export default function NewPlant() {
                                 <button class='button is-small'>Add New Species</button>
                             </div>
                         </div>
-
-                        <div class='field'>
-                            <div class='label'>Name</div>
-                            <div class='control is-expanded'>
-                                <input class='input' type='text' id='name' placeholder='Name Your Plant'></input>
-                            </div>
-                        </div>
-                        {/* <div class='field'>
-                            <div class='label'>Description</div>
-                            <div class='control is-expanded'>
-                                <textarea class='input' type='text' id='description' placeholder='Description'></textarea>
-                            </div>
-                        </div> */}
-                        <div class='field'>
-                            <div class='label'>Add image component here</div>
-                            <figure class='image is-128x128'>
-                                <img src='/sun.png'></img>
-                            </figure>
-                        </div>
+                    </div>
+                    <div className='speciesInfo'>
+                        <div class='context mt-2 has-text-weight-bold'></div>
+                        <ul>
+                            {Object.entries(oneSpec).map(function (el) {
+                                const [key, value] = el;
+                                return (
+                                    <li>
+                                        <span class='context has-text-weight-bold'>{key}</span> : {value}
+                                    </li>
+                                );
+                            })}
+                        </ul>
                     </div>
                 </form>
-                {/* <div>{console.log('oneSpecOutside', oneSpec)}</div> */}
-                <div className='speciesInfo'>
-                    <div>{oneSpec._id}</div>
-                    <div>{oneSpec.species}</div>
-                    <div>{oneSpec.commonName}</div>
-                    <div>{oneSpec.description}</div>
-                    <div>{oneSpec.lightLevel}</div>
-                    <div>{oneSpec.waterLevel}</div>
-                    <div>{oneSpec.tempLevel}</div>
-                </div>
+                <form>
+                    <div class='field mt-5'>
+                        <div class='label'>Name</div>
+                        <div class='control is-expanded'>
+                            <input class='input' type='text' id='name' placeholder='Name Your Plant'></input>
+                        </div>
+                    </div>
+                    <div class='field'>
+                        <div class='label'>Last Watered</div>
+                        <div class='control is-expanded'>
+                            <input class='input' type='date' id='date' placeholder='Enter Date'></input>
+                        </div>
+                    </div>
+                    <div class='field'>
+                        <div class='label'>Add image component here</div>
+                        <figure class='image is-128x128'>
+                            <img src='/sun.png'></img>
+                        </figure>
+                    </div>
+
+                    <div class='control'>
+                        <button class='button is-large'>Add Plant</button>
+                    </div>
+                </form>
             </>
         );
     }
