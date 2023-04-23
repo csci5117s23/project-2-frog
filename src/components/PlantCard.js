@@ -20,7 +20,7 @@ export default function PlantCard(props) {
             </div>
             <div className='card-content'>
                 <h1 className='title has-text-centered'>{props.plant.name || 'Unnamed Plant'}</h1>
-                <div className='columns is-mobile'>
+                <div className='columns is-mobile is-vcentered'>
                     <div className='column is-one-third'>
                         <figure className='image is-square'>
                             <Image src='/watering_can.png' alt='watering can' fill></Image>
