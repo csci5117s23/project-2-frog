@@ -123,30 +123,39 @@ a {
   display: block;
  
 }
+.select-search-input{
+  text-align: left;
+}
+
+.label {
+  padding-right: .5%;
+}
+
 
 .select-search-is-highlighted {
   background: var(--select-search-highlight);
 }
 .select-search-option:not(.select-search-is-selected):hover {
-  background: rgb(2, 84, 6);
+  background: rgb(37, 65, 39);
   color: white;
 }
 .select-search-option {
   border: none;
   outline: none;
-  width: 200px;
+  width: 100px;
   text-align: left;
   background-color: transparent;
 }
 .select-search-select {
   background-color: white;
-  width: 200px;
+  width: 100px;
   overflow-y: scroll;
-  max-height: 200px;
+  max-height: 100;
   border-width: 5px;
   border-style: solid;
   border: black;
 }
+
 
 #__next {
   margin-bottom: 10%;
