@@ -53,13 +53,13 @@ export default function Home() {
                         <div className='column'>
                             <div className='columns is-mobile'>
                                 <div className='column is-half'>{plantCards[0]}</div>
-                                <div className='column is-half'>{plantCards[0]}</div>
+                                <div className='column is-half'>{plantCards[1]}</div>
                             </div>
                         </div>
                         <div className='column'>
                             <div className='columns is-mobile'>
-                                <div className='column is-half'>{plantCards[0]}</div>
-                                <div className='column is-half'>{plantCards[0]}</div>
+                                <div className='column is-half'>{plantCards[2]}</div>
+                                <div className='column is-half'>{plantCards[3]}</div>
                             </div>
                         </div>
                     </div>
