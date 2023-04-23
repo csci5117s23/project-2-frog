@@ -29,11 +29,14 @@ export default function Home() {
         load();
     }, [loading, userId]);
 
-    const plantCards = [];
+    const plantCards = [[], [], [], []]
 
     if (!plants.length) plantCards.push(<p key={'no'}>You have no plants</p>);
+    let i = 0;
     for (const plant of plants) {
-        plantCards.push(<PlantCard key={plant._id} plant={plant}></PlantCard>);
+        plantCards[i].push(<PlantCard key={plant._id} plant={plant}></PlantCard>)
+        i++
+        if (i > 3) i = 0
     }
 
     return (
@@ -44,13 +47,24 @@ export default function Home() {
                 <link rel='icon' href='/favicon.ico' />
                 <Script src='/src/modules/hamburger.js'></Script>
             </Head>
-            <main>
-                <div className='container'>
-                    <div className='section'>
-                        <div className='columns'>{plantCards}</div>
+            <div className='container'>
+                <div className='section'>
+                    <div className='columns'>
+                        <div className='column'>
+                            <div className='columns is-mobile'>
+                                <div className='column is-half'>{plantCards[0]}</div>
+                                <div className='column is-half'>{plantCards[0]}</div>
+                            </div>
+                        </div>
+                        <div className='column'>
+                            <div className='columns is-mobile'>
+                                <div className='column is-half'>{plantCards[0]}</div>
+                                <div className='column is-half'>{plantCards[0]}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </main>
+            </div>
         </>
     );
 }
