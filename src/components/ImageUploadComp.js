@@ -15,6 +15,7 @@ export default function ImageUploadComp({reset}){
 
     function handleFileOnChange(e) {
         setFileUpload(e.target.files[0].name);
+        
     }
 
     useEffect(() => {
@@ -68,13 +69,28 @@ export default function ImageUploadComp({reset}){
     function uploadHandle(e){
         e.preventDefault();
         const fileInput = document.getElementById('imageField'); 
-        const upload_imaged = fileInput.files[0];  // get the file from font-end
-        let reader = new FileReader();
-        reader.onloadend = function() {     // call back to set your state variables
-            setDataUrl(reader.result);
-            buttonClicked.current = true; 
-        }     
-        reader.readAsDataURL(upload_imaged);
+        const upload_image = fileInput.files[0];  // get the file from font-end
+        Resizer.imageFileResizer(
+            upload_image, //file name
+            400, //max pixel width
+            400, //max pixel height
+            "JPEG", //compression format
+            100, //quality
+            0, //rotation
+            (resizedFile) => {
+                //Callback function
+                
+                setDataUrl(URL.createObjectURL(resizedFile));
+            },
+            "base64" //output type
+        );
+        
+        // let reader = new FileReader();
+        // reader.onloadend = function() {     
+        //     setDataUrl(reader.result);
+        //     buttonClicked.current = true; 
+        // }     
+        // reader.readAsDataURL(upload_image);
     }
      
     
