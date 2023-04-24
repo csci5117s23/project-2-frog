@@ -121,8 +121,8 @@ a {
 
 .select-search-container:not(.select-search-is-multiple).select-search-has-focus .select-search-select {
   display: block;
- 
 }
+
 .select-search-input{
   text-align: left;
 }
@@ -142,14 +142,15 @@ a {
 .select-search-option {
   border: none;
   outline: none;
-  width: 100px;
+  width: 200px;
+  max-height: 100px;
   text-align: left;
   background-color: transparent;
+  overflow-y: scroll;
 }
 .select-search-select {
   background-color: white;
-  width: 100px;
-  overflow-y: scroll;
+  width: 200px;
   max-height: 100;
   border-width: 5px;
   border-style: solid;

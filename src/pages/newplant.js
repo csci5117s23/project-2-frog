@@ -6,6 +6,7 @@ import 'bulma/css/bulma.css';
 import { getSpecies, getReqSpecies } from '@/modules/Data';
 import React from 'react';
 import SelectSearch from 'react-select-search';
+import { closeOnSelect } from 'react-select-search';
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -21,7 +22,7 @@ export default function NewPlant() {
     //may need to use userInput in later code, rn empty string
     const [userInput, setUserInput] = useState('');
 
-    // Get to do items that are false
+    // Get data from db
     useEffect(() => {
         async function process() {
             if (userId) {
@@ -29,7 +30,7 @@ export default function NewPlant() {
                     //From CLERK JWT templates for authentication
                     const token = await getToken({ template: 'codehooks' });
                     const list = await getReqSpecies(userInput, token);
-                    console.log('list: ', list);
+                    console.log('response: ', list);
                     setSpeciesList(list);
                 } catch (e) {
                     console.log('error in todos useEffect::', e.message);
@@ -38,13 +39,10 @@ export default function NewPlant() {
             setLoading(false);
         }
         process();
-    }, [isLoaded, userInput]);
+    }, [isLoaded]);
 
-    //Get species from db
+    //Get select plant from db
     async function submitId(id) {
-        //console.log('species list: ', speciesList);
-        //console.log('id: ', id);
-
         try {
             const token = await getToken({ template: 'codehooks' });
             const list = await getSpecies(id, token);
@@ -54,6 +52,19 @@ export default function NewPlant() {
             console.log('Error: ', error);
         }
     }
+
+    //style list
+    function renderGroup(allGroup, { stack, name }, snapshot, className) {
+        return (
+            <button {...allGroup} className={className} type='button'>
+                <span style={{ fontFamily: stack }}>{name}</span>
+            </button>
+        );
+    }
+
+    //search species and common name
+    const groupCommonName = speciesList.map((specs) => ({ name: specs.commonName, value: specs._id }));
+    const groupSpecies = speciesList.map((specs) => ({ name: specs.species, value: specs._id }));
 
     if (loading) {
         return (
@@ -67,13 +78,26 @@ export default function NewPlant() {
                 <form>
                     <div class='has-text-weight-bold newPlant'>
                         <div class='field is-grouped'>
-                            <div class='label'>Select Species </div>
+                            <div class='label'>Select Plant </div>
                             <div class='control'>
                                 <SelectSearch
-                                    options={speciesList.map((specs) => ({ name: specs.species, value: specs._id }))}
-                                    id='species'
-                                    placeholder='Search Species'
+                                    // renderOption={renderGroup}
+                                    options={[
+                                        {
+                                            type: 'group',
+                                            name: 'Species',
+                                            items: groupSpecies,
+                                        },
+                                        {
+                                            type: 'group',
+                                            name: 'Common Name',
+                                            items: groupCommonName,
+                                        },
+                                    ]}
+                                    id='search'
+                                    placeholder='Search Plants'
                                     search={true}
+                                    type='group'
                                     multiple={false}
                                     onChange={(id) => submitId(id)}></SelectSearch>
                             </div>
@@ -82,13 +106,13 @@ export default function NewPlant() {
                             </div>
                         </div>
                     </div>
-                    <div className='speciesInfo'>
+                    <div className='selectedPlant'>
                         <div class='context mt-2 has-text-weight-bold'></div>
                         <ul>
                             {Object.entries(oneSpec).map(function (el) {
                                 const [key, value] = el;
                                 return (
-                                    <li>
+                                    <li key={key}>
                                         <span class='context has-text-weight-bold'>{key}</span> : {value}
                                     </li>
                                 );
