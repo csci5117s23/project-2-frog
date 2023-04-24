@@ -2,7 +2,6 @@
 import { css } from "@emotion/react"
 import Image from "next/image"
 import Link from "next/link"
-import { decideLightImage } from "@/modules/randomHelpers"
 
 export default function PlantCard(props) {
 
@@ -12,52 +11,19 @@ export default function PlantCard(props) {
             <div className='card-image'>
                 <figure className='image is-square'>
                     <Image src={props.plant.image || '/default_plant.png'} alt={props.plant.name} fill></Image>
-                </div>
-                <div css={css`
-                    width: 100%;
-                    height: 50%;
-                `}>
-                    <h3 id='plantName' css={css`height: 20%; text-align: center;`}>{props.plant.name || 'Unnamed Plant'}</h3>
-                    
-                    <div css={css`
-                        display: flex;
-                        flex-direction: row;
-                        height: 80%;
-                    `}>
-                        <div id='leftColumn' css={css`
-                            display: flex;
-                            flex-direction: column;
-                            flex: 1;
-                            
-                        `}>
-                            <div css={css`
-                                height: 50%;
-                                position: relative;
-                                overflow: hidden;
-                            `}>
-                                {decideLightImage(props.lightLevel)}
-                            </div>
-                            <div css={css`
-                                height: 50%;
-                                position: relative;
-                                text-align: center;
-                            `}>
-                                {props.plant.tempLevel || '60-80'}
-                            </div>
-                        </div>
-                        <div id='rightColumn' css={css`
-                            display: flex;
-                            flex-direction: column;
-                            flex: 1;
-                        `}>
-                            <div css={css`
-                                height: 50%;
-                                position: relative;
-                                overflow: hidden;
-                            `}>
-                                <Image src='/watering_can.png' alt='watering can' fill css={css`object-fit: cover;`}></Image>
-                            </div>
-                            <p css={css`text-align: center;`}> {props.plant.lastWatered || 'today'} </p>
+                </figure>
+            </div>
+            <div className='card-content'>
+                <h1 className='title has-text-centered'>{props.plant.name || 'Unnamed Plant'}</h1>
+                <div className='columns is-mobile is-vcentered'>
+                    <div className='column is-one-third'>
+                        <figure className='image is-square'>
+                            <Image src='/watering_can.png' alt='watering can' fill></Image>
+                        </figure>
+                    </div>
+                    <div className='column is-two-thirds'>
+                        <div className='content'>
+                            <p className='has-text-centered'>{props.plant.lastWatered || 'today'}</p>
                         </div>
                     </div>
                 </div>
