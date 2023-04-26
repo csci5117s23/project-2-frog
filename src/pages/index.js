@@ -10,6 +10,7 @@ import { useAuth } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 import { getPlantsForUser } from '@/modules/Data';
 import Script from 'next/script';
+import PlusButton from '@/components/PlusButton';
 
 
 export default function Home() {
@@ -65,6 +66,7 @@ export default function Home() {
                     </div>
                 </div>
             </div>
+            <PlusButton />
         </>
     );
 }

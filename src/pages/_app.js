@@ -7,7 +7,7 @@ import 'bulma/css/bulma.css';
 // If the current route is listed as public, render it directly
 // Otherwise, use Clerk to require authentication
 //  Only home page and sign-in page public
-const publicPages = ['/sign-in/[[...index]]', '/sign-up/[[...index]]', '/'];
+const publicPages = ['/sign-in/[[...index]]', '/sign-up/[[...index]]'];
 
 export default function App({ Component, pageProps }) {
     // Get the pathname
