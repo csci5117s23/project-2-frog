@@ -74,7 +74,7 @@ export default function NewPlant() {
 				{
 					userId: userId,
 					name: plantName,
-					species: getPlant.species,
+					species: getPlant['_id'],
 					image: '/sun.png',
 					lastWatered: waterDate,
 				},
