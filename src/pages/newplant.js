@@ -1,28 +1,28 @@
 //Add new plant page
 //https://github.com/tbleckert/react-select-search
-import { useAuth } from '@clerk/nextjs';
-import { useState, useEffect } from 'react';
-import 'bulma/css/bulma.css';
-import { getSpecies, getSpeciesByName, postPlant } from '@/modules/Data';
-import React from 'react';
-import SelectSearch from 'react-select-search';
+import { useAuth } from '@clerk/nextjs'
+import { useState, useEffect } from 'react'
+import 'bulma/css/bulma.css'
+import { getSpecies, getSpeciesByName, postPlant } from '@/modules/Data'
+import React from 'react'
+import SelectSearch from 'react-select-search'
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function NewPlant() {
-	const { isLoaded, userId, isSignedIn, getToken } = useAuth();
-	const [loading, setLoading] = useState(true);
+	const { isLoaded, userId, isSignedIn, getToken } = useAuth()
+	const [loading, setLoading] = useState(true)
 
 	// All plants in db
-	const [speciesList, setSpeciesList] = useState([]);
+	const [speciesList, setSpeciesList] = useState([])
 
 	//The returned user selected species by _id
-	const [getPlant, setGetPlant] = useState([]);
+	const [getPlant, setGetPlant] = useState([])
 
 	//User input for plant name, last water, and image
-	const [plantName, setPlantName] = useState('');
-	const [waterDate, setWaterDate] = useState(() => new Date());
-	const [image, setImage] = useState([]);
+	const [plantName, setPlantName] = useState('')
+	const [waterDate, setWaterDate] = useState(() => new Date())
+	const [image, setImage] = useState([])
 
 	//Get all plant data from db
 	useEffect(() => {
@@ -32,26 +32,26 @@ export default function NewPlant() {
 					//From CLERK JWT templates for authentication
 					const token = await getToken({
 						template: 'codehooks',
-					});
-					const list = await getSpeciesByName('', token);
-					setSpeciesList(list);
+					})
+					const list = await getSpeciesByName('', token)
+					setSpeciesList(list)
 				} catch (e) {
-					console.log('error in todos useEffect::', e.message);
+					console.log('error in useEffect::', e.message)
 				}
 			}
-			setLoading(false);
+			setLoading(false)
 		}
-		process();
-	}, [isLoaded, loading]);
+		process()
+	}, [isLoaded, loading])
 
 	//Get user selected plant from db using species id
 	async function submitSpeciesId(id) {
 		try {
-			const token = await getToken({ template: 'codehooks' });
-			const list = await getSpecies(id, token);
-			setGetPlant(list);
+			const token = await getToken({ template: 'codehooks' })
+			const list = await getSpecies(id, token)
+			setGetPlant(list)
 		} catch (error) {
-			console.log('Error: ', error);
+			console.log('Error: ', error)
 		}
 	}
 
@@ -61,15 +61,15 @@ export default function NewPlant() {
 			<button {...allGroup} className={className} type='button'>
 				<span style={{ fontFamily: stack }}>{name}</span>
 			</button>
-		);
+		)
 	}
 
 	//Add new plant to plants db
 	async function addPlant(e) {
-		e.preventDefault();
+		e.preventDefault()
 
 		try {
-			const token = await getToken({ template: 'codehooks' });
+			const token = await getToken({ template: 'codehooks' })
 			const list = await postPlant(
 				{
 					userId: userId,
@@ -79,27 +79,27 @@ export default function NewPlant() {
 					lastWatered: waterDate,
 				},
 				token
-			);
+			)
 			if (list == -1) {
-				alert('Error Posting Plant ');
+				alert('Error Posting Plant ')
 			}
-			setGetPlant(list);
+			setGetPlant(list)
 		} catch (error) {
-			console.log('Error: ', error);
+			console.log('Error: ', error)
 		}
-		window.location.reload();
+		window.location.reload()
 	}
 
 	//Separate species and common name for search filter
-	const groupCommonName = speciesList.map((specs) => ({ name: specs.commonName, value: specs._id }));
-	const groupSpecies = speciesList.map((specs) => ({ name: specs.species, value: specs._id }));
+	const groupCommonName = speciesList.map((specs) => ({ name: specs.commonName, value: specs._id }))
+	const groupSpecies = speciesList.map((specs) => ({ name: specs.species, value: specs._id }))
 
 	if (loading) {
 		return (
 			<>
 				<div>loading....</div>
 			</>
-		);
+		)
 	} else {
 		return (
 			<>
@@ -127,7 +127,9 @@ export default function NewPlant() {
 									search={true}
 									type='group'
 									multiple={false}
-									onChange={(id) => submitSpeciesId(id)}></SelectSearch>
+									onChange={(id) => submitSpeciesId(id)}
+									// autoFucus
+								></SelectSearch>
 							</div>
 							<div className='control'>
 								<button className='button is-small'>Add New Species</button>
@@ -138,13 +140,13 @@ export default function NewPlant() {
 						<div className='context mt-2 has-text-weight-bold'></div>
 						<ul>
 							{Object.entries(getPlant).map(function (el) {
-								const [key, value] = el;
+								const [key, value] = el
 								return (
 									<li key={key}>
 										<span className='context has-text-weight-bold'>{key}</span>{' '}
 										: {value}
 									</li>
-								);
+								)
 							})}
 						</ul>
 					</div>
@@ -159,7 +161,7 @@ export default function NewPlant() {
 								id='name'
 								placeholder='Name Your Plant'
 								onChange={(e) => {
-									setPlantName(e.target.value);
+									setPlantName(e.target.value)
 								}}></input>
 						</div>
 					</div>
@@ -172,7 +174,7 @@ export default function NewPlant() {
 								id='date'
 								placeholder='Enter Date'
 								onChange={(e) => {
-									setWaterDate(new Date(e.target.value));
+									setWaterDate(new Date(e.target.value))
 								}}></input>
 						</div>
 					</div>
@@ -210,6 +212,6 @@ export default function NewPlant() {
 					</div>
 				</form>
 			</>
-		);
+		)
 	}
 }
