@@ -13,7 +13,7 @@ export default function PlusButton() {
                 height: 3rem; 
                 width: 3rem;
                 border-radius: 1.5rem;
-                background-color: green;
+                background-color: #E88965;
             `}>
         <Image src={plus} alt='add plant'></Image>
     </Link>
