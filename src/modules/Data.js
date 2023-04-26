@@ -22,6 +22,19 @@ export async function getSpeciesByName(species, token) {
     return await result.json();
 }
 
+
+export async function getAllSpecies(token) {
+    const result = await fetch(`${backend_base}/species`, {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer: ${token}`,
+        },
+    });
+    if (!result.ok) return result.response;
+    return await result.json();
+}
+
+
 export async function postSpecies(speciesJSON, token) {
     const result = await fetch(`${backend_base}/species/`, {
         method: 'POST',

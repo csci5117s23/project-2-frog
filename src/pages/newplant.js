@@ -3,7 +3,7 @@
 import { useAuth } from '@clerk/nextjs'
 import { useState, useEffect } from 'react'
 import 'bulma/css/bulma.css'
-import { getSpecies, getSpeciesByName, postPlant } from '@/modules/Data'
+import { getSpecies, getAllSpecies, postPlant } from '@/modules/Data'
 import React from 'react'
 import SelectSearch from 'react-select-search'
 import ImageUploadComp from '@/components/ImageUploadComp'
@@ -34,7 +34,7 @@ export default function NewPlant() {
 					const token = await getToken({
 						template: 'codehooks',
 					})
-					const list = await getSpeciesByName('', token)
+					const list = await getAllSpecies(token)
 					setSpeciesList(list)
 				} catch (e) {
 					console.log('error in useEffect::', e.message)
