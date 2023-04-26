@@ -1,7 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import 'bulma/css/bulma.css'
+import FileResizer from "react-image-file-resizer";
 
-export default function ImageUploadComp({reset}){
+export default function ImageUploadComp(props, {reset}){
     const API_ENDPOINT = process.env.NEXT_PUBLIC_API_URL;
     const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
     const backend = process.env.NEXT_PUBLIC_BACKEND_BASE_URL
@@ -70,35 +71,37 @@ export default function ImageUploadComp({reset}){
         e.preventDefault();
         const fileInput = document.getElementById('imageField'); 
         const upload_image = fileInput.files[0];  // get the file from font-end
-        Resizer.imageFileResizer(
-            upload_image, //file name
-            400, //max pixel width
-            400, //max pixel height
-            "JPEG", //compression format
-            100, //quality
-            0, //rotation
-            (resizedFile) => {
-                //Callback function
+        // FileResizer.imageFileResizer(
+        //     upload_image, //file name
+        //     400, //max pixel width
+        //     400, //max pixel height
+        //     "JPEG", //compression format
+        //     100, //quality
+        //     0, //rotation
+        //     (resizedFile) => {
+        //         //Callback function
                 
-                setDataUrl(URL.createObjectURL(resizedFile));
-            },
-            "base64" //output type
-        );
+        //         setDataUrl(URL.createObjectURL(resizedFile));
+        //         console.log('hi there')
+        //         props.setImage(dataUrl)
+        //     },
+        //     "base64" //output type
+        // );
         
-        // let reader = new FileReader();
-        // reader.onloadend = function() {     
-        //     setDataUrl(reader.result);
-        //     buttonClicked.current = true; 
-        // }     
-        // reader.readAsDataURL(upload_image);
+        let reader = new FileReader();
+        reader.onloadend = function() {  
+            setDataUrl(reader.result);
+            props.setImage(reader.result)
+            buttonClicked.current = true; 
+        }     
+        reader.readAsDataURL(upload_image);
     }
      
     
     
     return(
-        <div class='container'>
+        <div className='container'>
             <div>
-                <form onSubmit={uploadHandle}>
                     <div className="file is-boxed">
                         <label className="file-label">
                             <input
@@ -117,14 +120,13 @@ export default function ImageUploadComp({reset}){
                     </div>
                     <div className="field">
                         <div className="control">
-                            <input
-                                type="submit"
+                            <button
                                 value="Upload"
                                 className="button is-link"
-                            />
+                                onClick={uploadHandle}
+                            >Upload</button>
                         </div>
                     </div>
-                </form>
             </div>
             {dataFetchedRef.current && <>
                 <p>Image from the database</p>

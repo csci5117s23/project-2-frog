@@ -6,6 +6,7 @@ import 'bulma/css/bulma.css'
 import { getSpecies, getSpeciesByName, postPlant } from '@/modules/Data'
 import React from 'react'
 import SelectSearch from 'react-select-search'
+import ImageUploadComp from '@/components/ImageUploadComp'
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -22,7 +23,7 @@ export default function NewPlant() {
 	//User input for plant name, last water, and image
 	const [plantName, setPlantName] = useState('')
 	const [waterDate, setWaterDate] = useState(() => new Date())
-	const [image, setImage] = useState([])
+	const [image, setImage] = useState('')
 
 	//Get all plant data from db
 	useEffect(() => {
@@ -75,7 +76,7 @@ export default function NewPlant() {
 					userId: userId,
 					name: plantName,
 					species: getPlant['_id'],
-					image: '/sun.png',
+					image: image,
 					lastWatered: waterDate,
 				},
 				token
@@ -179,10 +180,13 @@ export default function NewPlant() {
 						</div>
 					</div>
 					<div className='field'>
-						<div className='label'></div>
+						<ImageUploadComp setImage={setImage}>
+
+						</ImageUploadComp>
+						{/* <div className='label'></div>
 						<figure className='image is-128x128'>
 							<img src='/sun.png'></img>
-						</figure>
+						</figure> */}
 						{/* <div class='file is-small'>
                             <label class='file-label'>
                                 <input
