@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
 import  Image  from "next/image";
 import { dateDiffInDays, decideLightImage } from "@/modules/randomHelpers";
-
+import ImageUploadComp from "@/components/ImageUploadComp";
 
 export default function SinglePlant(){
     const [loading, setLoading] = useState(true)
@@ -16,6 +16,8 @@ export default function SinglePlant(){
     const [speciesInfo, setSpeciesInfo] = useState(null)
     const [editingName, setEditingName] = useState(false)
     const [tempName, setTempName] = useState("")
+    const [editingPhoto, setEditingPhoto] = useState(false)
+    const [tempPhoto, setTempPhoto] = useState("")
 
     const { isLoaded, userId, sessionId, getToken } = useAuth()
 
@@ -98,15 +100,33 @@ export default function SinglePlant(){
     function nameInput(event){
         setTempName(event.target.value)
     }
+
+    function toggleEditingPic(){
+        setEditingPhoto(!editingPhoto)
+    }
+
+    async function submitPicChange(){
+        toggleEditingPic()
+        const token = await getToken({Template: "codehooks"});
+
+        const response = await patchPlant(plant_id, {"image": tempPhoto}, token)
+
+        if (response == -1){alert("wasn't able to update db")}
+
+        setPlantData(response)
+
+    }
     
 
 
-    const active = editingName ? "is-active" : "";
+    const nameEditActive = editingName ? "is-active" : "";
+    const photoEditActive = editingPhoto ? "is-active" : "";
+
     if(loading){
         return(<>Loading.....</>)
     }else{
         return(<>
-            <div className={`modal ${active}`}>
+            <div className={`modal ${nameEditActive}`}>
                 <div className="modal-background" />
                 <div className="modal-card">
                     <header className="modal-card-head">
@@ -139,11 +159,38 @@ export default function SinglePlant(){
                     </footer>
                 </div>
             </div>
+
+            <div className={`modal ${photoEditActive}`}>
+                <div className="modal-background" />
+                <div className="modal-card">
+                    <header className="modal-card-head">
+                    <p className="modal-card-title">Change Plant Picture</p>
+                    <button
+                        onClick={toggleEditingPic}
+                        className="delete"
+                        aria-label="close"
+                    />
+                    </header>
+                    <section className="modal-card-body">
+                        <ImageUploadComp
+                        setImage = {setTempPhoto}
+                        />
+                    </section>
+                    <footer className="modal-card-foot">
+                    <button onClick={submitPicChange} className="button">
+                        Complete
+                    </button>
+                    <button onClick={toggleEditingPic} className="button">
+                        Cancel
+                    </button>
+                    </footer>
+                </div>
+            </div>
             
             <div className="columns is-multiline is-mobile is-3 is-vcentered">
                 <div className="column is-full-mobile is-half-desktop ">
                     <div className="card">
-                        <div className="card-image">
+                        <div className="card-image" onClick={toggleEditingPic}>
                             <figure className="image is-4by3">
                                 <Image src = {plantData["image"]} fill></Image>
                             </figure>
@@ -180,7 +227,6 @@ export default function SinglePlant(){
                         <div className="media">
                             <div className="media-left">
                                 <figure className="image is-48x48">
-                                    {/* <Image src={'/sun.png'} alt='sun' fill css={css`object-fit: cover;`}></Image> */}
                                     {decideLightImage(speciesInfo["lightLevel"])}
                                 </figure>
                             </div>
@@ -210,6 +256,7 @@ export default function SinglePlant(){
                     </div>
 
                 </div> 
+
             </div>
         </>)
     }
