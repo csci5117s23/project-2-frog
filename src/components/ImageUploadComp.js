@@ -80,17 +80,11 @@ export default function ImageUploadComp({reset}){
             (resizedFile) => {
                 //Callback function
                 
-                setDataUrl(URL.createObjectURL(resizedFile));
+                props.setImage(resizedFile)
             },
             "base64" //output type
         );
         
-        // let reader = new FileReader();
-        // reader.onloadend = function() {     
-        //     setDataUrl(reader.result);
-        //     buttonClicked.current = true; 
-        // }     
-        // reader.readAsDataURL(upload_image);
     }
      
     
