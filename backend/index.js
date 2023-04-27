@@ -5,7 +5,7 @@
 */
 import {Datastore, app} from 'codehooks-js'
 import {crudlify} from 'codehooks-crudlify'
-import { date, object, string } from 'yup';
+import { date, number, object, string } from 'yup';
 import jwtDecode from 'jwt-decode';
 
 // Use Crudlify to create a REST API for any collection
@@ -14,7 +14,7 @@ const speciesYup = object({
     commonName: string().required(),
     description: string(),
     lightLevel: string().required(),
-    waterLevel: string().required(),
+    waterLevel: number().required(),
     tempLevel: string().required()
 })
 
