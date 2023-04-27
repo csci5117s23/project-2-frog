@@ -1,35 +1,38 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
-import { SignInButton, useAuth, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import { css } from '@emotion/react'
+import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import Link from 'next/link'
+import Image from 'next/image'
+import icon from '../../public/plant_icon.png'
 export default function TopBar() {
-    const { isLoaded, userId, sessionId, getToken } = useAuth();
-    function burgerActive() {
-        const navbarMenu = document.querySelector('#nav-links');
-        navbarMenu.classList.toggle('is-active');
-    }
-    return (
-        <nav className='navbar is-fixed-top is-dark' role='navigation' aria-label='main navigation'>
-            <div className='navbar-brand'>
-                <a className='navbar-item'>YOOOOOO PLANT APP</a>
-                <a className='navbar-burger' id='burger' onClick={burgerActive}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </a>
-            </div>
-            <div className='navbar-menu ' id='nav-links'>
-                <div className='navbar-end '>
-                    <a className='navbar-item '>Settings</a>
-                    <a className='navbar-item '>
-                        <SignedIn>
-                            <UserButton></UserButton>
-                        </SignedIn>
-                        <SignedOut>
-                            <SignInButton></SignInButton>
-                        </SignedOut>
-                    </a>
-                </div>
-            </div>
-        </nav>
-    )
+    return <nav css={css`
+        z-index: 1;
+        position: fixed;
+        top: 0;
+        height: 3rem;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        background-color: #3E5641;
+        a:hover {
+            background-color: #435B46;
+        }
+    `}>
+        <Link href='/' className='navbar-item'>
+            <figure className='image' css={css`padding: 0;`}>
+                <Image src={icon} alt='icon'></Image>
+            </figure>
+        </Link>
+        <div css={css`
+            margin: 0.5rem;
+        `}>
+            <SignedIn>
+                <UserButton></UserButton>
+            </SignedIn>
+            <SignedOut>
+                <SignInButton></SignInButton>
+            </SignedOut>    
+        </div>
+    </nav>
 }
