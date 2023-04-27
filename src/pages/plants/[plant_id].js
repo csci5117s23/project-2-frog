@@ -14,6 +14,8 @@ export default function SinglePlant(){
     const [speciesNoLoad, setSpeciesNoLoad] = useState(null)
     const [plantData, setPlantData] = useState(null)
     const [speciesInfo, setSpeciesInfo] = useState(null)
+    const [editingName, setEditingName] = useState(false)
+    const [tempName, setTempName] = useState("")
 
     const { isLoaded, userId, sessionId, getToken } = useAuth()
 
@@ -58,7 +60,7 @@ export default function SinglePlant(){
         //get time since last watered and subtract from number of days between waters
         const today = new Date()
         const lastWatered = new Date(plantData["lastWatered"])
-        const difference = dateDiffInDays(today, lastWatered)
+        const difference = dateDiffInDays( lastWatered, today)
 
         //assuming that waterLevel is number of days between waters
         return speciesInfo["waterLevel"] - difference
@@ -74,14 +76,69 @@ export default function SinglePlant(){
 
         setPlantData(response)
     }
+
+    function toggleEditingName(){
+
+        setEditingName(!editingName)
+        console.log(editingName)
+    }
+
+    async function changeName(){
+        toggleEditingName()
+        const token = await getToken({Template: "codehooks"});
+
+        const response = await patchPlant(plant_id, {"name": tempName}, token)
+
+        if (response == -1){alert("wasn't able to update db")}
+
+        setPlantData(response)
+
+    }
+
+    function nameInput(event){
+        setTempName(event.target.value)
+    }
     
 
 
-
+    const active = editingName ? "is-active" : "";
     if(loading){
         return(<>Loading.....</>)
     }else{
         return(<>
+            <div className={`modal ${active}`}>
+                <div className="modal-background" />
+                <div className="modal-card">
+                    <header className="modal-card-head">
+                    <p className="modal-card-title">Edit Plant Name</p>
+                    <button
+                        onClick={toggleEditingName}
+                        className="delete"
+                        aria-label="close"
+                    />
+                    </header>
+                    <section className="modal-card-body">
+                    <div className="field">
+                        <label className="label">Name</label>
+                        <div className="control">
+                        <input
+                            className="input"
+                            type="text"
+                            placeholder={plantData["name"]}
+                            value= {tempName}
+                            onChange={nameInput}
+                        />
+                        </div>
+                    </div>
+                    </section>
+                    <footer className="modal-card-foot">
+                    <button className="button is-success" onClick={changeName}>Save changes</button>
+                    <button onClick={toggleEditingName} className="button">
+                        Cancel
+                    </button>
+                    </footer>
+                </div>
+            </div>
             
             <div className="columns is-multiline is-mobile is-3 is-vcentered">
                 <div className="column is-full-mobile is-half-desktop ">
@@ -91,7 +148,7 @@ export default function SinglePlant(){
                                 <Image src = {plantData["image"]} fill></Image>
                             </figure>
                         </div>
-                        <div className="card-content"> 
+                        <div className="card-content" onClick={toggleEditingName}> 
                             <div className="title">{plantData["name"]}</div>
                             <div className="subtitle">{speciesInfo["commonName"]}</div>
                         </div>
@@ -137,7 +194,10 @@ export default function SinglePlant(){
                 <div className="column is-half-mobile is-quarter-desktop">
                     <div className="card">
                         <div className="card-footer">
-                            <button className="card-footer-item button is-primary" onClick={waterPlant}>Water Plant!</button>
+                            <button 
+                            className="card-footer-item button"  
+                            onClick={waterPlant}
+                            >Water Plant!</button>
                         </div>
                     </div>
                 </div>
