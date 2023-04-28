@@ -5,6 +5,7 @@ export async function getSpecies(speciesId, token) {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${token}`,
+
         },
     });
     if (!result.ok) return -1;
@@ -33,7 +34,6 @@ export async function getAllSpecies(token) {
     if (!result.ok) return result.response;
     return await result.json();
 }
-
 
 export async function postSpecies(speciesJSON, token) {
     const result = await fetch(`${backend_base}/species/`, {

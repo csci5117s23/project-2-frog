@@ -19,6 +19,7 @@ export default function SinglePlant(){
     const [editingPhoto, setEditingPhoto] = useState(false)
     const [tempPhoto, setTempPhoto] = useState("")
 
+
     const { isLoaded, userId, sessionId, getToken } = useAuth()
 
     const router = useRouter()
