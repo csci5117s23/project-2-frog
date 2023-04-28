@@ -27,7 +27,7 @@ export default function SinglePlant(){
     useEffect(()=>{
         async function getPlantInfo(){
             if(router.isReady && isLoaded){
-                console.log("getting toekn and grabbing the plant");
+                console.log("getting token and grabbing the plant");
                 const token = await getToken({Template: "codehooks"});
 
                 const plant_json = await getPlantById(plant_id, token)
@@ -82,7 +82,6 @@ export default function SinglePlant(){
     function toggleEditingName(){
 
         setEditingName(!editingName)
-        console.log(editingName)
     }
 
     async function changeName(){
