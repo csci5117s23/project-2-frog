@@ -71,30 +71,29 @@ export default function ImageUploadComp(props, {reset}){
         e.preventDefault();
         const fileInput = document.getElementById('imageField'); 
         const upload_image = fileInput.files[0];  // get the file from font-end
-        // FileResizer.imageFileResizer(
-        //     upload_image, //file name
-        //     400, //max pixel width
-        //     400, //max pixel height
-        //     "JPEG", //compression format
-        //     100, //quality
-        //     0, //rotation
-        //     (resizedFile) => {
-        //         //Callback function
+        FileResizer.imageFileResizer(
+            upload_image, //file name
+            400, //max pixel width
+            400, //max pixel height
+            "JPEG", //compression format
+            100, //quality
+            0, //rotation
+            (resizedFile) => {
+                //Callback function
                 
-        //         setDataUrl(URL.createObjectURL(resizedFile));
-        //         console.log('hi there')
-        //         props.setImage(dataUrl)
-        //     },
-        //     "base64" //output type
-        // );
+                console.log(resizedFile)
+                props.setImage(resizedFile)
+            },
+            "base64" //output type
+        );
         
-        let reader = new FileReader();
-        reader.onloadend = function() {  
-            setDataUrl(reader.result);
-            props.setImage(reader.result)
-            buttonClicked.current = true; 
-        }     
-        reader.readAsDataURL(upload_image);
+        // let reader = new FileReader();
+        // reader.onloadend = function() {  
+        //     setDataUrl(reader.result);
+        //     props.setImage(reader.result)
+        //     buttonClicked.current = true; 
+        // }     
+        // reader.readAsDataURL(upload_image);
     }
      
     

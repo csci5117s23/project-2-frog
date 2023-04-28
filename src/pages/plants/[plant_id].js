@@ -1,4 +1,4 @@
-import { getPlantById, getSpecies, patchPlant } from "@/modules/Data";
+import { getPlantById, getSpeciesByName, patchPlant } from "@/modules/Data";
 import { RedirectToSignIn, SignedIn, SignedOut, useAuth } from "@clerk/nextjs";
 import { css } from "@emotion/react"
 import { useRouter} from "next/router";
@@ -36,7 +36,7 @@ export default function SinglePlant(){
                     setFakePlant(true)
                 }else{
                     setPlantData(plant_json)
-                    const species = await getSpecies(plant_json["species"], token)
+                    const species = await getSpeciesByName(plant_json["species"], token)
                     if(species == -1){
                         setSpeciesNoLoad(true)
                     }else{

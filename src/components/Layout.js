@@ -9,7 +9,7 @@ export default function Layout({ children }) {
             <Topbar />
             <main
                 css={css`
-                    margin-top: 5rem;
+                    margin-top: 3rem;
                 `}>
                 {children}
             </main>

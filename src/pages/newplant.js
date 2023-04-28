@@ -180,33 +180,11 @@ export default function NewPlant() {
 						</div>
 					</div>
 					<div className='field'>
+					<img src={image}></img>
 						<ImageUploadComp setImage={setImage}>
-
+								
 						</ImageUploadComp>
-						{/* <div className='label'></div>
-						<figure className='image is-128x128'>
-							<img src='/sun.png'></img>
-						</figure> */}
-						{/* <div class='file is-small'>
-                            <label class='file-label'>
-                                <input
-                                    className='file-input'
-                                    type='file'
-                                    name='resume'
-                                    accept='image/*'
-                                    onChange={(e) => {
-                                        setImage(e.target.value);
-                                        console.log('image', image);
-                                    }}
-                                />
-                                <span class='file-cta'>
-                                    <span class='file-icon'>
-                                        <i class='fas fa-upload'></i>
-                                    </span>
-                                    <span class='file-label'>Upload</span>
-                                </span>
-                            </label>
-                        </div> */}
+						
 					</div>
 
 					<div className='control'>
