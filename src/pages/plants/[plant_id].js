@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
 import  Image  from "next/image";
 import { dateDiffInDays, decideLightImage } from "@/modules/randomHelpers";
-
+import ImageUploadComp from "@/components/ImageUploadComp";
 
 export default function SinglePlant(){
     const [loading, setLoading] = useState(true)
@@ -14,6 +14,10 @@ export default function SinglePlant(){
     const [speciesNoLoad, setSpeciesNoLoad] = useState(null)
     const [plantData, setPlantData] = useState(null)
     const [speciesInfo, setSpeciesInfo] = useState(null)
+    const [editingName, setEditingName] = useState(false)
+    const [tempName, setTempName] = useState("")
+    const [editingPhoto, setEditingPhoto] = useState(false)
+    const [tempPhoto, setTempPhoto] = useState("")
 
     const { isLoaded, userId, sessionId, getToken } = useAuth()
 
@@ -23,7 +27,7 @@ export default function SinglePlant(){
     useEffect(()=>{
         async function getPlantInfo(){
             if(router.isReady && isLoaded){
-                console.log("getting toekn and grabbing the plant");
+                console.log("getting token and grabbing the plant");
                 const token = await getToken({Template: "codehooks"});
 
                 const plant_json = await getPlantById(plant_id, token)
@@ -58,7 +62,7 @@ export default function SinglePlant(){
         //get time since last watered and subtract from number of days between waters
         const today = new Date()
         const lastWatered = new Date(plantData["lastWatered"])
-        const difference = dateDiffInDays(today, lastWatered)
+        const difference = dateDiffInDays( lastWatered, today)
 
         //assuming that waterLevel is number of days between waters
         return speciesInfo["waterLevel"] - difference
@@ -74,24 +78,123 @@ export default function SinglePlant(){
 
         setPlantData(response)
     }
+
+    function toggleEditingName(){
+
+        setEditingName(!editingName)
+    }
+
+    async function changeName(){
+        toggleEditingName()
+        const token = await getToken({Template: "codehooks"});
+
+        const response = await patchPlant(plant_id, {"name": tempName}, token)
+
+        if (response == -1){alert("wasn't able to update db")}
+
+        setPlantData(response)
+
+    }
+
+    function nameInput(event){
+        setTempName(event.target.value)
+    }
+
+    function toggleEditingPic(){
+        setEditingPhoto(!editingPhoto)
+    }
+
+    async function submitPicChange(){
+        toggleEditingPic()
+        const token = await getToken({Template: "codehooks"});
+
+        const response = await patchPlant(plant_id, {"image": tempPhoto}, token)
+
+        if (response == -1){alert("wasn't able to update db")}
+
+        setPlantData(response)
+
+    }
     
 
 
+    const nameEditActive = editingName ? "is-active" : "";
+    const photoEditActive = editingPhoto ? "is-active" : "";
 
     if(loading){
         return(<>Loading.....</>)
     }else{
         return(<>
+            <div className={`modal ${nameEditActive}`}>
+                <div className="modal-background" />
+                <div className="modal-card">
+                    <header className="modal-card-head">
+                    <p className="modal-card-title">Edit Plant Name</p>
+                    <button
+                        onClick={toggleEditingName}
+                        className="delete"
+                        aria-label="close"
+                    />
+                    </header>
+                    <section className="modal-card-body">
+                    <div className="field">
+                        <label className="label">Name</label>
+                        <div className="control">
+                        <input
+                            className="input"
+                            type="text"
+                            placeholder={plantData["name"]}
+                            value= {tempName}
+                            onChange={nameInput}
+                        />
+                        </div>
+                    </div>
+                    </section>
+                    <footer className="modal-card-foot">
+                    <button className="button is-success" onClick={changeName}>Save changes</button>
+                    <button onClick={toggleEditingName} className="button">
+                        Cancel
+                    </button>
+                    </footer>
+                </div>
+            </div>
+
+            <div className={`modal ${photoEditActive}`}>
+                <div className="modal-background" />
+                <div className="modal-card">
+                    <header className="modal-card-head">
+                    <p className="modal-card-title">Change Plant Picture</p>
+                    <button
+                        onClick={toggleEditingPic}
+                        className="delete"
+                        aria-label="close"
+                    />
+                    </header>
+                    <section className="modal-card-body">
+                        <ImageUploadComp
+                        setImage = {setTempPhoto}
+                        />
+                    </section>
+                    <footer className="modal-card-foot">
+                    <button onClick={submitPicChange} className="button">
+                        Complete
+                    </button>
+                    <button onClick={toggleEditingPic} className="button">
+                        Cancel
+                    </button>
+                    </footer>
+                </div>
+            </div>
             
             <div className="columns is-multiline is-mobile is-3 is-vcentered">
                 <div className="column is-full-mobile is-half-desktop ">
                     <div className="card">
-                        <div className="card-image">
+                        <div className="card-image" onClick={toggleEditingPic}>
                             <figure className="image is-4by3">
                                 <Image src = {plantData["image"]} fill></Image>
                             </figure>
                         </div>
-                        <div className="card-content"> 
+                        <div className="card-content" onClick={toggleEditingName}> 
                             <div className="title">{plantData["name"]}</div>
                             <div className="subtitle">{speciesInfo["commonName"]}</div>
                         </div>
@@ -123,7 +226,6 @@ export default function SinglePlant(){
                         <div className="media">
                             <div className="media-left">
                                 <figure className="image is-48x48">
-                                    {/* <Image src={'/sun.png'} alt='sun' fill css={css`object-fit: cover;`}></Image> */}
                                     {decideLightImage(speciesInfo["lightLevel"])}
                                 </figure>
                             </div>
@@ -137,7 +239,10 @@ export default function SinglePlant(){
                 <div className="column is-half-mobile is-quarter-desktop">
                     <div className="card">
                         <div className="card-footer">
-                            <button className="card-footer-item button is-primary" onClick={waterPlant}>Water Plant!</button>
+                            <button 
+                            className="card-footer-item button"  
+                            onClick={waterPlant}
+                            >Water Plant!</button>
                         </div>
                     </div>
                 </div>
@@ -150,6 +255,7 @@ export default function SinglePlant(){
                     </div>
 
                 </div> 
+
             </div>
         </>)
     }
