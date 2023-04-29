@@ -7,12 +7,14 @@ import { getSpecies, getAllSpecies, postPlant } from '@/modules/Data'
 import React from 'react'
 import SelectSearch from 'react-select-search'
 import ImageUploadComp from '@/components/ImageUploadComp'
+import { useRouter } from 'next/router'
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function NewPlant() {
 	const { isLoaded, userId, isSignedIn, getToken } = useAuth()
 	const [loading, setLoading] = useState(true)
+	const router = useRouter()
 
 	// All plants in db
 	const [speciesList, setSpeciesList] = useState([])
@@ -95,6 +97,10 @@ export default function NewPlant() {
 	const groupCommonName = speciesList.map((specs) => ({ name: specs.commonName, value: specs._id }))
 	const groupSpecies = speciesList.map((specs) => ({ name: specs.species, value: specs._id }))
 
+	const redirect = () => {
+		router.push('/species/new')
+	}
+
 	if (loading) {
 		return (
 			<>
@@ -133,7 +139,9 @@ export default function NewPlant() {
 								></SelectSearch>
 							</div>
 							<div className='control'>
-								<button className='button is-small'>Add New Species</button>
+								<button className='button is-small' onClick={redirect}>
+									Add New Species
+								</button>
 							</div>
 						</div>
 					</div>
@@ -180,33 +188,7 @@ export default function NewPlant() {
 						</div>
 					</div>
 					<div className='field'>
-						<ImageUploadComp setImage={setImage}>
-
-						</ImageUploadComp>
-						{/* <div className='label'></div>
-						<figure className='image is-128x128'>
-							<img src='/sun.png'></img>
-						</figure> */}
-						{/* <div class='file is-small'>
-                            <label class='file-label'>
-                                <input
-                                    className='file-input'
-                                    type='file'
-                                    name='resume'
-                                    accept='image/*'
-                                    onChange={(e) => {
-                                        setImage(e.target.value);
-                                        console.log('image', image);
-                                    }}
-                                />
-                                <span class='file-cta'>
-                                    <span class='file-icon'>
-                                        <i class='fas fa-upload'></i>
-                                    </span>
-                                    <span class='file-label'>Upload</span>
-                                </span>
-                            </label>
-                        </div> */}
+						<ImageUploadComp setImage={setImage}></ImageUploadComp>
 					</div>
 
 					<div className='control'>
