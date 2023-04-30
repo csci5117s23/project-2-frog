@@ -73,8 +73,9 @@ export default function NewPlant() {
 
 		try {
 			const token = await getToken({ template: 'codehooks' })
+			let list = []
 			if(image == ''){
-				const list = await postPlant(
+				list = await postPlant(
 					{
 						userId: userId,
 						name: plantName,
@@ -84,7 +85,7 @@ export default function NewPlant() {
 					token
 				)
 			}else{
-				const list = await postPlant(
+				list = await postPlant(
 					{
 						userId: userId,
 						name: plantName,
@@ -99,10 +100,12 @@ export default function NewPlant() {
 				alert('Error Posting Plant ')
 			}
 			setGetPlant(list)
+			router.push(`/plants/${list['_id']}`)
+
 		} catch (error) {
 			console.log('Error: ', error)
 		}
-		window.location.reload()
+
 	}
 
 	//Separate species and common name for search filter
