@@ -103,7 +103,7 @@ a {
   left: 0;
   border-radius: 3px;
   display: none;
-
+  background-color: #9ed09e;
 }
 
 .select-search-container:not(.select-search-is-multiple).select-search-has-focus .select-search-select {
@@ -151,6 +151,10 @@ a {
   border: black;
   max-height: 200px;
   overflow-y: scroll;
+}
+
+.selectedPlant, .context {
+  text-transform: capitalize;
 }
 
 #__next {

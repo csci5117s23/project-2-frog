@@ -134,18 +134,16 @@ export default function NewPlant() {
 						</div>
 					</div>
 					<div className='selectedPlant'>
-						<div className='context mt-2 has-text-weight-bold'></div>
-						<ul>
-							{Object.entries(getPlant).map(function (el) {
-								const [key, value] = el
-								return (
-									<li key={key}>
-										<span className='context has-text-weight-bold'>{key}</span>{' '}
-										: {value}
-									</li>
-								)
-							})}
-						</ul>
+						<div className='context mt-2 has-text-weight-bold'>
+							<ul>
+								{console.log('species is ', getPlant.species)}
+								<li>
+									{getPlant.species
+										? [getPlant.species, ' - ', getPlant.commonName]
+										: 'Species Not Selected'}
+								</li>
+							</ul>
+						</div>
 					</div>
 				</form>
 				<form>
@@ -176,14 +174,8 @@ export default function NewPlant() {
 						</div>
 					</div>
 
-					<div className='field is-grouped'>
-						<div className='control'>
-							<div className='label'></div>
-							<figure className='image is-128x128'>
-								<img src={image}></img>
-							</figure>
-							<ImageUploadComp setImage={setImage}></ImageUploadComp>
-						</div>
+					<div className='field'>
+						<ImageUploadComp setImage={setImage}></ImageUploadComp>
 					</div>
 					<div className='control'>
 						<button className='button is-large' onClick={addPlant} value='submit'>
