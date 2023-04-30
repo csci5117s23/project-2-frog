@@ -7,12 +7,14 @@ import { getSpecies, getAllSpecies, postPlant } from '@/modules/Data'
 import React from 'react'
 import SelectSearch from 'react-select-search'
 import ImageUploadComp from '@/components/ImageUploadComp'
+import { useRouter } from 'next/router'
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function NewPlant() {
 	const { isLoaded, userId, isSignedIn, getToken } = useAuth()
 	const [loading, setLoading] = useState(true)
+	const router = useRouter()
 
 	// All plants in db
 	const [speciesList, setSpeciesList] = useState([])
@@ -71,29 +73,48 @@ export default function NewPlant() {
 
 		try {
 			const token = await getToken({ template: 'codehooks' })
-			const list = await postPlant(
-				{
-					userId: userId,
-					name: plantName,
-					species: getPlant['_id'],
-					image: image,
-					lastWatered: waterDate,
-				},
-				token
-			)
+			let list = []
+			if(image == ''){
+				list = await postPlant(
+					{
+						userId: userId,
+						name: plantName,
+						species: getPlant['_id'],
+						lastWatered: waterDate
+					},
+					token
+				)
+			}else{
+				list = await postPlant(
+					{
+						userId: userId,
+						name: plantName,
+						species: getPlant['_id'],
+						image: image,
+						lastWatered: waterDate,
+					},
+					token
+				)
+			}
 			if (list == -1) {
 				alert('Error Posting Plant ')
 			}
 			setGetPlant(list)
+			router.push(`/plants/${list['_id']}`)
+
 		} catch (error) {
 			console.log('Error: ', error)
 		}
-		window.location.reload()
+
 	}
 
 	//Separate species and common name for search filter
 	const groupCommonName = speciesList.map((specs) => ({ name: specs.commonName, value: specs._id }))
 	const groupSpecies = speciesList.map((specs) => ({ name: specs.species, value: specs._id }))
+
+	const redirect = () => {
+		router.push('/species/new')
+	}
 
 	if (loading) {
 		return (
@@ -133,7 +154,9 @@ export default function NewPlant() {
 								></SelectSearch>
 							</div>
 							<div className='control'>
-								<button className='button is-small'>Add New Species</button>
+								<button className='button is-small' onClick={redirect}>
+									Add New Species
+								</button>
 							</div>
 						</div>
 					</div>
@@ -180,11 +203,11 @@ export default function NewPlant() {
 						</div>
 					</div>
 					<div className='field'>
+
 					<img src={image}></img>
-						<ImageUploadComp setImage={setImage}>
-								
-						</ImageUploadComp>
-						
+
+						<ImageUploadComp setImage={setImage}></ImageUploadComp>
+
 					</div>
 
 					<div className='control'>

@@ -35,4 +35,5 @@ export default function TopBar() {
             </SignedOut>    
         </div>
     </nav>
+
 }
