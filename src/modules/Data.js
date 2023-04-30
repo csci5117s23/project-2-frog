@@ -108,3 +108,14 @@ export async function patchPlant(plantId, plantJSON, token) {
     if (!result.ok) return -1;
     return await result.json();
 }
+
+export async function deletePlant(plantId, token) {
+    const result = await fetch(`${backend_base}/plants/${plantId}`, {
+        method: 'DELETE',
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    if (!result.ok) return -1;
+    return await result.json();
+}
