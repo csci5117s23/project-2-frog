@@ -84,8 +84,6 @@ export default function NewPlant() {
 		} catch (error) {
 			console.log('Error: ', error)
 		}
-		setLoading(false)
-		window.location.reload()
 	}
 
 	//Separate species and common name for search filter
