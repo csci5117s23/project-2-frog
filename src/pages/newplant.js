@@ -67,20 +67,35 @@ export default function NewPlant() {
 
 		try {
 			const token = await getToken({ template: 'codehooks' })
-			const list = await postPlant(
-				{
-					userId: userId,
-					name: plantName,
-					species: getPlant['_id'],
-					image: image,
-					lastWatered: waterDate,
-				},
-				token
-			)
+			let list = []
+			if(image == ''){
+				list = await postPlant(
+					{
+						userId: userId,
+						name: plantName,
+						species: getPlant['_id'],
+						lastWatered: waterDate
+					},
+					token
+				)
+			}else{
+				list = await postPlant(
+					{
+						userId: userId,
+						name: plantName,
+						species: getPlant['_id'],
+						image: image,
+						lastWatered: waterDate,
+					},
+					token
+				)
+			}
 			if (list == -1) {
 				alert('Error Posting Plant ')
 			}
 			setGetPlant(list)
+			router.push(`/plants/${list['_id']}`)
+
 		} catch (error) {
 			console.log('Error: ', error)
 		}
