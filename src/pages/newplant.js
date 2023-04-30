@@ -15,6 +15,9 @@ export default function NewPlant() {
 	const { isLoaded, userId, isSignedIn, getToken } = useAuth()
 	const [loading, setLoading] = useState(true)
 	const router = useRouter()
+	const redirect = () => {
+		router.push('/species/new')
+	}
 
 	// All plants in db
 	const [speciesList, setSpeciesList] = useState([])
@@ -58,15 +61,6 @@ export default function NewPlant() {
 		}
 	}
 
-	//style the rendering of the list, bug for arrow and tab keys
-	function renderGroup(allGroup, { stack, name }, snapshot, className) {
-		return (
-			<button {...allGroup} className={className} type='button'>
-				<span style={{ fontFamily: stack }}>{name}</span>
-			</button>
-		)
-	}
-
 	//Add new plant to plants db
 	async function addPlant(e) {
 		e.preventDefault()
@@ -90,16 +84,13 @@ export default function NewPlant() {
 		} catch (error) {
 			console.log('Error: ', error)
 		}
+		setLoading(false)
 		window.location.reload()
 	}
 
 	//Separate species and common name for search filter
 	const groupCommonName = speciesList.map((specs) => ({ name: specs.commonName, value: specs._id }))
 	const groupSpecies = speciesList.map((specs) => ({ name: specs.species, value: specs._id }))
-
-	const redirect = () => {
-		router.push('/species/new')
-	}
 
 	if (loading) {
 		return (
@@ -116,17 +107,16 @@ export default function NewPlant() {
 							<div className='label'>Select Plant </div>
 							<div className='control'>
 								<SelectSearch
-									// renderOption={renderGroup}
 									options={[
-										{
-											type: 'group',
-											name: 'Species',
-											items: groupSpecies,
-										},
 										{
 											type: 'group',
 											name: 'Common Name',
 											items: groupCommonName,
+										},
+										{
+											type: 'group',
+											name: 'Species',
+											items: groupSpecies,
 										},
 									]}
 									id='search'
@@ -134,9 +124,7 @@ export default function NewPlant() {
 									search={true}
 									type='group'
 									multiple={false}
-									onChange={(id) => submitSpeciesId(id)}
-									// autoFucus
-								></SelectSearch>
+									onChange={(id) => submitSpeciesId(id)}></SelectSearch>
 							</div>
 							<div className='control'>
 								<button className='button is-small' onClick={redirect}>
@@ -187,10 +175,16 @@ export default function NewPlant() {
 								}}></input>
 						</div>
 					</div>
-					<div className='field'>
-						<ImageUploadComp setImage={setImage}></ImageUploadComp>
-					</div>
 
+					<div className='field is-grouped'>
+						<div className='control'>
+							<div className='label'></div>
+							<figure className='image is-128x128'>
+								<img src={image}></img>
+							</figure>
+							<ImageUploadComp setImage={setImage}></ImageUploadComp>
+						</div>
+					</div>
 					<div className='control'>
 						<button className='button is-large' onClick={addPlant} value='submit'>
 							Add Plant
