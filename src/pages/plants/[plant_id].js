@@ -18,7 +18,7 @@ export default function SinglePlant(){
     const [tempName, setTempName] = useState("")
     const [editingPhoto, setEditingPhoto] = useState(false)
     const [tempPhoto, setTempPhoto] = useState("")
-
+    
 
     const { isLoaded, userId, sessionId, getToken } = useAuth()
 
@@ -30,7 +30,6 @@ export default function SinglePlant(){
             if(router.isReady && isLoaded){
                 console.log("getting token and grabbing the plant");
                 const token = await getToken({Template: "codehooks"});
-
                 const plant_json = await getPlantById(plant_id, token)
 
                 if(plant_json == -1){
@@ -43,19 +42,11 @@ export default function SinglePlant(){
                     }else{
                         setSpeciesInfo(species)
                     }
-
                 }
-
                 setLoading(false)
             }
-            // }else if(router.isReady && isLoaded && !userId){
-            //     console.log("attempting to access when not logged in")
-            //     setLoading(false)
-
-            // }
         }
         getPlantInfo()
-        
         
     }, [router, isLoaded])
 
@@ -81,7 +72,6 @@ export default function SinglePlant(){
     }
 
     function toggleEditingName(){
-
         setEditingName(!editingName)
     }
 
@@ -171,7 +161,6 @@ export default function SinglePlant(){
                     </footer>
                 </div>
             </div>
-
             <div className={`modal ${photoEditActive}`}>
                 <div className="modal-background" />
                 <div className="modal-card">
@@ -197,53 +186,49 @@ export default function SinglePlant(){
                     </button>
                     </footer>
                 </div>
-            </div>
-            
-            <div className="columns is-multiline is-mobile is-3 is-vcentered">
-                <div className="column is-full-mobile is-half-desktop ">
-                    <div className="card">
-                        <div className="card-image" onClick={toggleEditingPic}>
-                            <figure className="image is-4by3">
-                                <Image src = {plantData["image"]} fill></Image>
-                            </figure>
-                        </div>
-                        <div className="card-content" onClick={toggleEditingName}> 
-                            <div className="title">{plantData["name"]}</div>
-                            <div className="subtitle">{speciesInfo["commonName"]}</div>
-                        </div>
+            </div>   
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="columns is-vcentered">
+                    <div class="column is-5">
+                        <figure class="image is-4by3" onClick={toggleEditingPic}>
+                            <Image src = {plantData["image"]} fill></Image>
+                        </figure>
                     </div>
-                </div>
-                <div className="column is-full-mobile is-half-desktop">
-                    <div className="card">
-                        <div className="card-content">
-                            <div className="content">
-                                {speciesInfo['description']}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div className="column is-half-mobile is-quarter-desktop">
-                    <div className="card">
-                        <div className="card-content">
-                            <p className="title">{calcTimeTillNextWater()}</p>
-                            <p className="subtitle">Days until next water</p>
-                        </div> 
-                    </div>
-
-                    
-                </div>
-                <div className="column is-half-mobile is-quarter-desktop">
-                    <div className="card">
-                        <div className="media">
-                            <div className="media-left">
-                                <figure className="image is-48x48">
-                                    {decideLightImage(speciesInfo["lightLevel"])}
-                                </figure>
-                            </div>
-                            <div className="media-content">
-                                <p className="title">{speciesInfo["lightLevel"]}</p>
+                    <div class="column is-6 is-offset-1">
+                        <h1 class="title is-2" onClick={toggleEditingName}>
+                            {plantData["name"]}
+                        </h1>
+                        <h2 class="subtitle is-4">
+                            Species: {speciesInfo['species']} <br></br>
+                            Common name: {speciesInfo['commonName']}<br></br>
+                            Description:<br></br>
+                            {speciesInfo['description']}
+                        </h2>
+                        <br></br>
+                        <div className="columns is-multiline is-mobile is-3 is-vcentered">
+                            <div className="column is-full-mobile is-half-desktop">
+                                <div className="card">
+                                    <div className="card-content">
+                                        <div className="card-content">
+                                            <p className="title">{calcTimeTillNextWater()}</p>
+                                            <p className="subtitle">Days until next water</p>
+                                        </div> 
+                                        <div className="media">
+                                            <div className="media-content">
+                                                <figure className="image is-48x48">
+                                                    {decideLightImage(speciesInfo["lightLevel"])}
+                                                </figure>
+                                            </div> 
+                                            <div className="media-content">
+                                                <p className="title">{speciesInfo["lightLevel"]} light</p>
+                                            </div>
+                                        </div>
+                                        <div className="card-content">
+                                            <p className="title">{speciesInfo["tempLevel"]}(&#8457;)</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
@@ -262,15 +247,6 @@ export default function SinglePlant(){
 
                 <div className="column is-half-mobile is-quarter-desktop">
                     <div className="card">
-                        <div className="card-content">
-                            <p className="title">{speciesInfo["tempLevel"]}</p>
-                        </div> 
-                    </div>
-
-                </div> 
-
-                <div className="column is-half-mobile is-quarter-desktop">
-                    <div className="card">
                         <div className="card-footer">
                             <button 
                             className="card-footer-item button is-danger"  
@@ -279,7 +255,7 @@ export default function SinglePlant(){
                         </div>
                     </div>
                 </div>
-
+                </div>
             </div>
         </>)
     }

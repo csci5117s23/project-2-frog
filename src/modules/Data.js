@@ -13,12 +13,13 @@ export async function getSpecies(speciesId, token) {
 }
 
 export async function getSpeciesByName(species, token) {
-    const result = await fetch(`${backend_base}/species?species=${species}`, {
+    const result = await fetch(`${backend_base}/species/?species=${species}`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${token}`,
         },
     });
+    
     if (!result.ok) return result.response;
     return await result.json();
 }
