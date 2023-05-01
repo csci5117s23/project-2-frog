@@ -7,12 +7,17 @@ import { getSpecies, getAllSpecies, postPlant } from '@/modules/Data'
 import React from 'react'
 import SelectSearch from 'react-select-search'
 import ImageUploadComp from '@/components/ImageUploadComp'
+import { useRouter } from 'next/router'
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function NewPlant() {
 	const { isLoaded, userId, isSignedIn, getToken } = useAuth()
 	const [loading, setLoading] = useState(true)
+	const router = useRouter()
+	const redirect = () => {
+		router.push('/species/new')
+	}
 
 	// All plants in db
 	const [speciesList, setSpeciesList] = useState([])
@@ -56,39 +61,44 @@ export default function NewPlant() {
 		}
 	}
 
-	//style the rendering of the list, bug for arrow and tab keys
-	function renderGroup(allGroup, { stack, name }, snapshot, className) {
-		return (
-			<button {...allGroup} className={className} type='button'>
-				<span style={{ fontFamily: stack }}>{name}</span>
-			</button>
-		)
-	}
-
 	//Add new plant to plants db
 	async function addPlant(e) {
 		e.preventDefault()
 
 		try {
 			const token = await getToken({ template: 'codehooks' })
-			const list = await postPlant(
-				{
-					userId: userId,
-					name: plantName,
-					species: getPlant['_id'],
-					image: image,
-					lastWatered: waterDate,
-				},
-				token
-			)
+			let list = []
+			if(image == ''){
+				list = await postPlant(
+					{
+						userId: userId,
+						name: plantName,
+						species: getPlant['_id'],
+						lastWatered: waterDate
+					},
+					token
+				)
+			}else{
+				list = await postPlant(
+					{
+						userId: userId,
+						name: plantName,
+						species: getPlant['_id'],
+						image: image,
+						lastWatered: waterDate,
+					},
+					token
+				)
+			}
 			if (list == -1) {
 				alert('Error Posting Plant ')
 			}
 			setGetPlant(list)
+			router.push(`/plants/${list['_id']}`)
+
 		} catch (error) {
 			console.log('Error: ', error)
 		}
-		window.location.reload()
 	}
 
 	//Separate species and common name for search filter
@@ -110,17 +120,16 @@ export default function NewPlant() {
 							<div className='label'>Select Plant </div>
 							<div className='control'>
 								<SelectSearch
-									// renderOption={renderGroup}
 									options={[
-										{
-											type: 'group',
-											name: 'Species',
-											items: groupSpecies,
-										},
 										{
 											type: 'group',
 											name: 'Common Name',
 											items: groupCommonName,
+										},
+										{
+											type: 'group',
+											name: 'Species',
+											items: groupSpecies,
 										},
 									]}
 									id='search'
@@ -128,28 +137,26 @@ export default function NewPlant() {
 									search={true}
 									type='group'
 									multiple={false}
-									onChange={(id) => submitSpeciesId(id)}
-									// autoFucus
-								></SelectSearch>
+									onChange={(id) => submitSpeciesId(id)}></SelectSearch>
 							</div>
 							<div className='control'>
-								<button className='button is-small'>Add New Species</button>
+								<button className='button is-small' onClick={redirect}>
+									Add New Species
+								</button>
 							</div>
 						</div>
 					</div>
 					<div className='selectedPlant'>
-						<div className='context mt-2 has-text-weight-bold'></div>
-						<ul>
-							{Object.entries(getPlant).map(function (el) {
-								const [key, value] = el
-								return (
-									<li key={key}>
-										<span className='context has-text-weight-bold'>{key}</span>{' '}
-										: {value}
-									</li>
-								)
-							})}
-						</ul>
+						<div className='context mt-2 has-text-weight-bold'>
+							<ul>
+								{console.log('species is ', getPlant.species)}
+								<li>
+									{getPlant.species
+										? [getPlant.species, ' - ', getPlant.commonName]
+										: 'Species Not Selected'}
+								</li>
+							</ul>
+						</div>
 					</div>
 				</form>
 				<form>
@@ -179,36 +186,10 @@ export default function NewPlant() {
 								}}></input>
 						</div>
 					</div>
+
 					<div className='field'>
-						<ImageUploadComp setImage={setImage}>
-
-						</ImageUploadComp>
-						{/* <div className='label'></div>
-						<figure className='image is-128x128'>
-							<img src='/sun.png'></img>
-						</figure> */}
-						{/* <div class='file is-small'>
-                            <label class='file-label'>
-                                <input
-                                    className='file-input'
-                                    type='file'
-                                    name='resume'
-                                    accept='image/*'
-                                    onChange={(e) => {
-                                        setImage(e.target.value);
-                                        console.log('image', image);
-                                    }}
-                                />
-                                <span class='file-cta'>
-                                    <span class='file-icon'>
-                                        <i class='fas fa-upload'></i>
-                                    </span>
-                                    <span class='file-label'>Upload</span>
-                                </span>
-                            </label>
-                        </div> */}
+						<ImageUploadComp setImage={setImage}></ImageUploadComp>
 					</div>
-
 					<div className='control'>
 						<button className='button is-large' onClick={addPlant} value='submit'>
 							Add Plant

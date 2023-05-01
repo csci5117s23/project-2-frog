@@ -13,12 +13,13 @@ export async function getSpecies(speciesId, token) {
 }
 
 export async function getSpeciesByName(species, token) {
-    const result = await fetch(`${backend_base}/species?species=${species}`, {
+    const result = await fetch(`${backend_base}/species/?species=${species}`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${token}`,
         },
     });
+    
     if (!result.ok) return result.response;
     return await result.json();
 }
@@ -104,6 +105,17 @@ export async function patchPlant(plantId, plantJSON, token) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(plantJSON),
+    });
+    if (!result.ok) return -1;
+    return await result.json();
+}
+
+export async function deletePlant(plantId, token) {
+    const result = await fetch(`${backend_base}/plants/${plantId}`, {
+        method: 'DELETE',
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
     });
     if (!result.ok) return -1;
     return await result.json();
