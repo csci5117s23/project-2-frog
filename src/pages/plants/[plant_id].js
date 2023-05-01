@@ -1,4 +1,4 @@
-import { getPlantById, getSpecies, patchPlant } from "@/modules/Data";
+import { deletePlant, getPlantById, getSpecies, patchPlant } from "@/modules/Data";
 import { RedirectToSignIn, SignedIn, SignedOut, useAuth } from "@clerk/nextjs";
 import { css } from "@emotion/react"
 import { useRouter} from "next/router";
@@ -19,6 +19,7 @@ export default function SinglePlant(){
     const [editingPhoto, setEditingPhoto] = useState(false)
     const [tempPhoto, setTempPhoto] = useState("")
     
+
     const { isLoaded, userId, sessionId, getToken } = useAuth()
 
     const router = useRouter()
@@ -96,13 +97,25 @@ export default function SinglePlant(){
 
     async function submitPicChange(){
         toggleEditingPic()
-        const token = await getToken({Template: "codehooks"});
+        const token = await getToken({Template: "codehooks"})
 
         const response = await patchPlant(plant_id, {"image": tempPhoto}, token)
 
         if (response == -1){alert("wasn't able to update db")}
 
         setPlantData(response)
+
+    }
+
+    async function killPlant(){
+        const token = await getToken({Template: "codehooks"})
+
+        const response = await deletePlant(plant_id, token)
+
+        if (response == -1){alert("wasn't able to update db")}
+
+        router.push('/')
+
 
     }
     
@@ -217,21 +230,42 @@ export default function SinglePlant(){
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
-            </div>     
-            <div className="column is-half-mobile is-quarter-desktop">
-                <div className="card">
-                    <div className="card-footer">
-                        <button 
-                        className="card-footer-item button"  
-                        onClick={waterPlant}
-                        >Water Plant!</button>
+                <div className="column is-half-mobile is-quarter-desktop">
+                    <div className="card">
+                        <div className="card-footer">
+                            <button 
+                            className="card-footer-item button"  
+                            onClick={waterPlant}
+                            >Water Plant!</button>
+                        </div>
                     </div>
                 </div>
+
+                <div className="column is-half-mobile is-quarter-desktop">
+                    <div className="card">
+                        <div className="card-content">
+                            <p className="title">{speciesInfo["tempLevel"]}</p>
+                        </div> 
+                    </div>
+
+                </div> 
+
+                <div className="column is-half-mobile is-quarter-desktop">
+                    <div className="card">
+                        <div className="card-footer">
+                            <button 
+                            className="card-footer-item button is-danger"  
+                            onClick={killPlant}
+                            >Kill Plant :&#40;</button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </div>
         </>)
     }
 
