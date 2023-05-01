@@ -14,8 +14,11 @@ import { useRouter } from 'next/router'
 export default function NewPlant() {
 	const { isLoaded, userId, isSignedIn, getToken } = useAuth()
 	const [loading, setLoading] = useState(true)
-	
 	const router = useRouter()
+	const redirect = () => {
+		router.push('/species/new')
+	}
+
 	// All plants in db
 	const [speciesList, setSpeciesList] = useState([])
 
@@ -58,18 +61,10 @@ export default function NewPlant() {
 		}
 	}
 
-	//style the rendering of the list, bug for arrow and tab keys
-	function renderGroup(allGroup, { stack, name }, snapshot, className) {
-		return (
-			<button {...allGroup} className={className} type='button'>
-				<span style={{ fontFamily: stack }}>{name}</span>
-			</button>
-		)
-	}
-
 	//Add new plant to plants db
 	async function addPlant(e) {
 		e.preventDefault()
+
 		try {
 			const token = await getToken({ template: 'codehooks' })
 			let list = []
@@ -104,16 +99,11 @@ export default function NewPlant() {
 		} catch (error) {
 			console.log('Error: ', error)
 		}
-		router.back()
 	}
 
 	//Separate species and common name for search filter
 	const groupCommonName = speciesList.map((specs) => ({ name: specs.commonName, value: specs._id }))
 	const groupSpecies = speciesList.map((specs) => ({ name: specs.species, value: specs._id }))
-
-	const redirect = () => {
-		router.push('/species/new')
-	}
 
 	if (loading) {
 		return (
@@ -121,34 +111,33 @@ export default function NewPlant() {
 				<div>loading....</div>
 			</>
 		)
-	} 
-	else {
+	} else {
 		return (
 			<>
 				<form>
-					<div>
+					<div className='has-text-weight-bold newPlant'>
 						<div className='field is-grouped'>
+							<div className='label'>Select Plant </div>
 							<div className='control'>
 								<SelectSearch
 									options={[
 										{
 											type: 'group',
-											name: 'Species',
-											items: groupSpecies,
-										},
-										{
-											type: 'group',
 											name: 'Common Name',
 											items: groupCommonName,
 										},
+										{
+											type: 'group',
+											name: 'Species',
+											items: groupSpecies,
+										},
 									]}
 									id='search'
-									placeholder='Find your plant species'
+									placeholder='Search Plants'
 									search={true}
 									type='group'
 									multiple={false}
-									onChange={(id) => submitSpeciesId(id)}
-								></SelectSearch>
+									onChange={(id) => submitSpeciesId(id)}></SelectSearch>
 							</div>
 							<div className='control'>
 								<button className='button is-small' onClick={redirect}>
@@ -158,14 +147,16 @@ export default function NewPlant() {
 						</div>
 					</div>
 					<div className='selectedPlant'>
-						<div className='context mt-2 has-text-weight-bold'></div>
-						<ul>
-							<li>Species: {getPlant['species']}</li>
-							<li>Temperature Range: (&#8457;): {getPlant['tempLevel']}</li>
-							<li>Days between watering: {getPlant['waterLevel']}</li>
-							<li>Light level: {getPlant['lightLevel']}</li>
-							<li>Description: <span>{getPlant['description']}</span> </li>
-						</ul>
+						<div className='context mt-2 has-text-weight-bold'>
+							<ul>
+								{console.log('species is ', getPlant.species)}
+								<li>
+									{getPlant.species
+										? [getPlant.species, ' - ', getPlant.commonName]
+										: 'Species Not Selected'}
+								</li>
+							</ul>
+						</div>
 					</div>
 				</form>
 				<form>
@@ -179,8 +170,7 @@ export default function NewPlant() {
 								placeholder='Name Your Plant'
 								onChange={(e) => {
 									setPlantName(e.target.value)
-								}}>
-							</input>
+								}}></input>
 						</div>
 					</div>
 					<div className='field'>
@@ -193,16 +183,12 @@ export default function NewPlant() {
 								placeholder='Enter Date'
 								onChange={(e) => {
 									setWaterDate(new Date(e.target.value))
-								}}>
-							</input>
+								}}></input>
 						</div>
 					</div>
+
 					<div className='field'>
-
-					<img src={image}></img>
-
 						<ImageUploadComp setImage={setImage}></ImageUploadComp>
-
 					</div>
 					<div className='control'>
 						<button className='button is-large' onClick={addPlant} value='submit'>
