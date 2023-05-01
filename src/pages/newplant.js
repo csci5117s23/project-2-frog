@@ -14,7 +14,7 @@ import { useRouter } from "next/router"
 export default function NewPlant() {
 	const { isLoaded, userId, isSignedIn, getToken } = useAuth()
 	const [loading, setLoading] = useState(true)
-	const router = useRouter()
+	
 	const router = useRouter()
 	// All plants in db
 	const [speciesList, setSpeciesList] = useState([])
