@@ -24,9 +24,7 @@ export default function TopBar() {
                 <Image src={icon} alt='icon'></Image>
             </figure>
         </Link>
-        <div css={css`
-            margin: 0.5rem;
-        `}>
+        <div css={css`margin: 0.5rem;`}>
             <SignedIn>
                 <UserButton></UserButton>
             </SignedIn>

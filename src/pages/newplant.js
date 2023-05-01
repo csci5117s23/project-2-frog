@@ -7,13 +7,13 @@ import { getSpecies, getAllSpecies, postPlant } from '@/modules/Data'
 import React from 'react'
 import SelectSearch from 'react-select-search'
 import ImageUploadComp from '@/components/ImageUploadComp'
-
+import { useRouter } from "next/router"
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function NewPlant() {
 	const { isLoaded, userId, isSignedIn, getToken } = useAuth()
 	const [loading, setLoading] = useState(true)
-
+	const router = useRouter()
 	// All plants in db
 	const [speciesList, setSpeciesList] = useState([])
 
@@ -68,7 +68,6 @@ export default function NewPlant() {
 	//Add new plant to plants db
 	async function addPlant(e) {
 		e.preventDefault()
-
 		try {
 			const token = await getToken({ template: 'codehooks' })
 			const list = await postPlant(
@@ -88,7 +87,7 @@ export default function NewPlant() {
 		} catch (error) {
 			console.log('Error: ', error)
 		}
-		window.location.reload()
+		router.back()
 	}
 
 	//Separate species and common name for search filter
@@ -101,16 +100,15 @@ export default function NewPlant() {
 				<div>loading....</div>
 			</>
 		)
-	} else {
+	} 
+	else {
 		return (
 			<>
 				<form>
-					<div className='has-text-weight-bold newPlant'>
+					<div>
 						<div className='field is-grouped'>
-							<div className='label'>Select Plant </div>
 							<div className='control'>
 								<SelectSearch
-									// renderOption={renderGroup}
 									options={[
 										{
 											type: 'group',
@@ -124,12 +122,11 @@ export default function NewPlant() {
 										},
 									]}
 									id='search'
-									placeholder='Search Plants'
+									placeholder='Find your plant species'
 									search={true}
 									type='group'
 									multiple={false}
 									onChange={(id) => submitSpeciesId(id)}
-									// autoFucus
 								></SelectSearch>
 							</div>
 							<div className='control'>
@@ -140,15 +137,11 @@ export default function NewPlant() {
 					<div className='selectedPlant'>
 						<div className='context mt-2 has-text-weight-bold'></div>
 						<ul>
-							{Object.entries(getPlant).map(function (el) {
-								const [key, value] = el
-								return (
-									<li key={key}>
-										<span className='context has-text-weight-bold'>{key}</span>{' '}
-										: {value}
-									</li>
-								)
-							})}
+							<li>Species: {getPlant['species']}</li>
+							<li>Temperature Range: (&#8457;): {getPlant['tempLevel']}</li>
+							<li>Days between watering: {getPlant['waterLevel']}</li>
+							<li>Light level: {getPlant['lightLevel']}</li>
+							<li>Description: <span>{getPlant['description']}</span> </li>
 						</ul>
 					</div>
 				</form>
@@ -163,7 +156,8 @@ export default function NewPlant() {
 								placeholder='Name Your Plant'
 								onChange={(e) => {
 									setPlantName(e.target.value)
-								}}></input>
+								}}>
+							</input>
 						</div>
 					</div>
 					<div className='field'>
@@ -176,17 +170,14 @@ export default function NewPlant() {
 								placeholder='Enter Date'
 								onChange={(e) => {
 									setWaterDate(new Date(e.target.value))
-								}}></input>
+								}}>
+							</input>
 						</div>
 					</div>
 					<div className='field'>
 					<img src={image}></img>
-						<ImageUploadComp setImage={setImage}>
-								
-						</ImageUploadComp>
-						
+						<ImageUploadComp setImage={setImage}></ImageUploadComp>
 					</div>
-
 					<div className='control'>
 						<button className='button is-large' onClick={addPlant} value='submit'>
 							Add Plant

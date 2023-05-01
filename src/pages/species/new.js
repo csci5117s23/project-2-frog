@@ -56,9 +56,9 @@ export default function NewSpecies() {
                 <div className='select'>
                     <select id='lightLevel' value={lightLevel} 
                         onChange={(e)=>setLightLevel(e.target.value)}>
-                        <option value='high'>high</option>
-                        <option value='medium'>medium</option>
                         <option value='low'>low</option>
+                        <option value='medium'>medium</option>
+                        <option value='high'>high</option>
                     </select>
                 </div>
             </div>
@@ -71,7 +71,7 @@ export default function NewSpecies() {
             </div>
         </div>
         <div className='field'>
-            <label className='label' htmlFor='tempLevel'>Temperature Range: </label>
+            <label className='label' htmlFor='tempLevel'>Temperature Range(&#8457;): </label>
             <div className='control'>
                 <input className='input' id='tempLevel' value={tempLevel} 
                     onChange={(e)=>setTempLevel(e.target.value)}></input>
