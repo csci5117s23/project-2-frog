@@ -264,7 +264,7 @@ export default function SinglePlant(){
                         </div>
                     </div>
                 </div>
-
+                </div>
             </div>
         </>)
     }
