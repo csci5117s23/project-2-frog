@@ -8,7 +8,7 @@ import React from 'react'
 import SelectSearch from 'react-select-search'
 import ImageUploadComp from '@/components/ImageUploadComp'
 import { useRouter } from 'next/router'
-import { useRouter } from "next/router"
+
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function NewPlant() {

@@ -247,15 +247,6 @@ export default function SinglePlant(){
 
                 <div className="column is-half-mobile is-quarter-desktop">
                     <div className="card">
-                        <div className="card-content">
-                            <p className="title">{speciesInfo["tempLevel"]}</p>
-                        </div> 
-                    </div>
-
-                </div> 
-
-                <div className="column is-half-mobile is-quarter-desktop">
-                    <div className="card">
                         <div className="card-footer">
                             <button 
                             className="card-footer-item button is-danger"  
