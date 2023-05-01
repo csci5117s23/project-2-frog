@@ -1,5 +1,6 @@
 :root{
   background-color: rgb(244, 253, 217);
+
 }
 .select-search-container:not(.select-search-is-multiple) .select-search-select {
   position: absolute;
@@ -9,18 +10,17 @@
   left: 0;
   border-radius: 3px;
   display: none;
-
-
 }
 
 .select-search-container:not(.select-search-is-multiple).select-search-has-focus .select-search-select {
   display: block;
-    --select-search-highlight: black;
+  --select-search-highlight: black;
 }
 
 
-.select-search-input{
+.select-search-input {
   text-align: left;
+
 }
 
 .label {
@@ -31,6 +31,7 @@
   background: rgb(37, 65, 39);
   color: white;
 }
+
 .select-search-option {
   border: none;
   outline: none;
@@ -39,9 +40,12 @@
   text-align: left;
   background-color: transparent;
 
+  text-transform: capitalize;
+  font-style: italic;
+
 }
 
-.select-search-option:not(.select-search-is-selected):focus{
+.select-search-option:not(.select-search-is-selected):focus {
   background: var(--select-search-highlight);
 }
 
@@ -54,6 +58,10 @@
   border: black;
   max-height: 200px;
   overflow-y: scroll;
+}
+
+.selectedPlant, .context {
+  text-transform: capitalize;
 }
 
 #__next {
