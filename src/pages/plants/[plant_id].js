@@ -187,19 +187,19 @@ export default function SinglePlant(){
                     </footer>
                 </div>
             </div>   
-        <div class="hero-body">
-            <div class="container has-text-centered">
-                <div class="columns is-vcentered">
-                    <div class="column is-5">
-                        <figure class="image is-4by3" onClick={toggleEditingPic}>
-                            <Image src = {plantData["image"]} fill></Image>
+        <div className="hero-body">
+            <div className="container has-text-centered">
+                <div className="columns is-vcentered">
+                    <div className="column is-5">
+                        <figure className="image is-4by3" onClick={toggleEditingPic}>
+                            <Image alt='plant image' src = {plantData["image"]} fill></Image>
                         </figure>
                     </div>
-                    <div class="column is-6 is-offset-1">
-                        <h1 class="title is-2" onClick={toggleEditingName}>
+                    <div className="column is-6 is-offset-1">
+                        <h1 className="title is-2" onClick={toggleEditingName}>
                             {plantData["name"]}
                         </h1>
-                        <h2 class="subtitle is-4">
+                        <h2 className="subtitle is-4">
                             Species: {speciesInfo['species']} <br></br>
                             Common name: {speciesInfo['commonName']}<br></br>
                             Description:<br></br>
