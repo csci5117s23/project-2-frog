@@ -5,7 +5,7 @@ CSCI 5117, Spring 2022, [assignment description](https://canvas.umn.edu/courses/
 ## App Info
 
 - Team Name: Frogs
-- App Name: TODO
+- App Name: EntMoot
 - App Link: <https://meek-souffle-992b4e.netlify.app/>
 
 ### Students
@@ -21,13 +21,10 @@ CSCI 5117, Spring 2022, [assignment description](https://canvas.umn.edu/courses/
 (one sentence per bullet, maximum 4 bullets):**
 
 -Image uploading, difficult to determine best way to store and handle.
--
--
--
 
 Which (if any) device integration(s) does your app support?
 
-- ...
+- Camera upload
 
 Which (if any) progressive web app feature(s) does your app support?
 
@@ -46,22 +43,45 @@ Which (if any) progressive web app feature(s) does your app support?
 
 **Is there anything special we need to know in order to effectively test your app? (optional):**
 
-- ...
+-
 
 ## Screenshots of Site (complete)
 
 **[Add a screenshot of each key page](https://stackoverflow.com/questions/10189356/how-to-add-screenshot-to-readmes-in-github-repository)
 along with a very brief caption:**
 
-![gif](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
+![Main Page](/public/main-page-complete.png)
+
+Main page, populated with user's plants
+
+![Add Plant Page](/public/add-plant-complete.png)
+
+Add Plant Page, select species, give name, upload image
+
+![Add Species Page](/public/add-species-complete.png)
+
+Add Species Page
+
+![View Plant Page](/public/view-plant-page.png)
+
+View Single Plant description and care
 
 ## External Dependencies
 
 **Document integrations with 3rd Party code or services here.
 Please do not document required libraries (e.g., Vue, Vuefire, Firebase).**
 
-- Library or service name: description of use
-- ...
+- Bulma: CSS Framework
+- npm i bulma
+
+- Emotion: CSS in JS
+- npm i @emotion/react
+
+- React Select Search: Search for species
+- npm i react-select-search
+
+- React Image Resizer: resize images for db
+- npm i react-image-file-resizer
 
 **If there's anything else you would like to disclose about how your project
 relied on external code, expertise, or anything else, please disclose that

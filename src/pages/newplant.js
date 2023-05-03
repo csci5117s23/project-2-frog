@@ -15,7 +15,8 @@ export default function NewPlant() {
 	const { isLoaded, userId, isSignedIn, getToken } = useAuth()
 	const [loading, setLoading] = useState(true)
 	const router = useRouter()
-	const redirect = () => {
+	const redirect = (e) => {
+		e.preventDefault()
 		router.push('/species/new')
 	}
 
@@ -64,21 +65,41 @@ export default function NewPlant() {
 	//Add new plant to plants db
 	async function addPlant(e) {
 		e.preventDefault()
+		if (!getPlant.species) {
+			alert('You need to select a species.')
+			return
+		}
 
 		try {
+			
+			if (plantName == '') {
+				alert('Your plant needs a name.')
+				return
+			}
 			const token = await getToken({ template: 'codehooks' })
 			let list = []
-			if(image == ''){
+			if (image == '') {
 				list = await postPlant(
 					{
 						userId: userId,
 						name: plantName,
 						species: getPlant['_id'],
-						lastWatered: waterDate
+						lastWatered: waterDate,
 					},
 					token
 				)
-			}else{
+			} else if (waterDate == '') {
+				list = await postPlant(
+					{
+						userId: userId,
+						name: plantName,
+						species: getPlant['_id'],
+						image: image,
+						lastWatered: date().default(() => new Date()),
+					},
+					token
+				)
+			} else {
 				list = await postPlant(
 					{
 						userId: userId,
@@ -95,7 +116,6 @@ export default function NewPlant() {
 			}
 			setGetPlant(list)
 			router.push(`/plants/${list['_id']}`)
-
 		} catch (error) {
 			console.log('Error: ', error)
 		}
@@ -168,6 +188,7 @@ export default function NewPlant() {
 								type='text'
 								id='name'
 								placeholder='Name Your Plant'
+								required
 								onChange={(e) => {
 									setPlantName(e.target.value)
 								}}></input>
