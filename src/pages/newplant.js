@@ -15,7 +15,8 @@ export default function NewPlant() {
 	const { isLoaded, userId, isSignedIn, getToken } = useAuth()
 	const [loading, setLoading] = useState(true)
 	const router = useRouter()
-	const redirect = () => {
+	const redirect = (e) => {
+		e.preventDefault()
 		router.push('/species/new')
 	}
 
@@ -68,17 +69,28 @@ export default function NewPlant() {
 		try {
 			const token = await getToken({ template: 'codehooks' })
 			let list = []
-			if(image == ''){
+			if (image == '') {
 				list = await postPlant(
 					{
 						userId: userId,
 						name: plantName,
 						species: getPlant['_id'],
-						lastWatered: waterDate
+						lastWatered: waterDate,
 					},
 					token
 				)
-			}else{
+			} else if (waterDate == '') {
+				list = await postPlant(
+					{
+						userId: userId,
+						name: plantName,
+						species: getPlant['_id'],
+						image: image,
+						lastWatered: date().default(() => new Date()),
+					},
+					token
+				)
+			} else {
 				list = await postPlant(
 					{
 						userId: userId,
@@ -95,7 +107,6 @@ export default function NewPlant() {
 			}
 			setGetPlant(list)
 			router.push(`/plants/${list['_id']}`)
-
 		} catch (error) {
 			console.log('Error: ', error)
 		}
