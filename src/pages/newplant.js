@@ -65,8 +65,17 @@ export default function NewPlant() {
 	//Add new plant to plants db
 	async function addPlant(e) {
 		e.preventDefault()
+		if (!getPlant.species) {
+			alert('You need to select a species.')
+			return
+		}
 
 		try {
+			
+			if (plantName == '') {
+				alert('Your plant needs a name.')
+				return
+			}
 			const token = await getToken({ template: 'codehooks' })
 			let list = []
 			if (image == '') {
@@ -179,6 +188,7 @@ export default function NewPlant() {
 								type='text'
 								id='name'
 								placeholder='Name Your Plant'
+								required
 								onChange={(e) => {
 									setPlantName(e.target.value)
 								}}></input>
